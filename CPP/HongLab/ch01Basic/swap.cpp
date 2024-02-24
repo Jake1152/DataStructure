@@ -118,13 +118,19 @@ int main() {
     std::cout << "### Compare sorted result ###"<< std::endl;
     // 인자 한개만 넣어보는 경우 
     compareTwoValue(0, 0);
-    // std::cout << std::endl;
+    std::cout << std::endl;
 
     // 첫 번째 인자를 배열로 주는 경우 
-    int arr[2] = {42,21};
+    int arr[] = {0,1,2,3,4};
     for (size_t idx = 0; idx < (sizeof(arr) / sizeof(arr[0])); idx++)
-    {
       compareTwoValue(arr[idx], 0);
+    std::cout << std::endl;
+    // 강의 예제대로 반복
+    size_t arr_size = (sizeof(arr) / sizeof(arr[0]));
+    for (size_t compare_num = 0; compare_num < arr_size; compare_num++)
+    {
+      for (size_t idx = 0; idx < arr_size; idx++)
+        compareTwoValue(arr[idx], compare_num);
     }
     std::cout << std::endl;
   }
