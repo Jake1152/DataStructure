@@ -8,23 +8,20 @@ void swap(int &a, int &b) {
   b = temp;
 }
 
-typedef struct be_swapped_numbers_s
-{
-  int a;
-  int b;
-}		be_swapped_numbers_t
+// typedef struct be_swapped_numbers_s
+// {
+//   int a;
+//   int b;
+// }		          be_swapped_numbers_t;
 
 // lecture cases
-int MySwapValue(int i, int j)
+void MySwapValue(int i, int j)
 {
-  be_swapped_numbers_t	be_swapped_numbers;
+  int temp;
 
-  be_swapped_numbers.a = j;
-  be_swappped_numbers.b = i;
-  
-  return be_swapped_numbers;
-  // TOOD
-  // return ?;
+  temp = i;
+  i = j;
+  j = temp;
 }
 /* */
 
@@ -62,6 +59,14 @@ void doSwapTest(T* a, T* b, void (*swapFn)(T*, T*))
   std::cout << *a << " " << *b << std::endl;
 }
 
+template <typename T>
+void doSwapTest(T a, T b, void (*swapFn)(T, T))
+{
+  std::cout << a << " " << b << std::endl;
+  swapFn(a, b);
+  std::cout << a << " " << b << std::endl;
+}
+
 
 int main() {
   int a = 3;
@@ -69,7 +74,10 @@ int main() {
   //void (*fnPtr)(int&, int&) = MySwapRef;
 
   doSwapTest(a, b, MySwapRef);
+  std::cout<< std::endl;
   doSwapTest(&a, &b, MySwapPtr);
+  std::cout<< std::endl;
+  doSwapTest(a, b, MySwapValue);
   //fnPtr(a, b);
   /*
   std::cout << a << " " << b << std::endl;
