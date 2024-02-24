@@ -8,13 +8,11 @@ void swap(int &a, int &b) {
   b = temp;
 }
 
-// typedef struct be_swapped_numbers_s
-// {
-//   int a;
-//   int b;
-// }		          be_swapped_numbers_t;
-
-// lecture cases
+/** three differnt case
+ * call by value
+ * call by reference
+ * call by pointer
+*/
 void MySwapValue(int i, int j)
 {
   int temp;
@@ -23,7 +21,6 @@ void MySwapValue(int i, int j)
   i = j;
   j = temp;
 }
-/* */
 
 void MySwapPtr(int* i, int* j)
 {
@@ -67,23 +64,32 @@ void doSwapTest(T a, T b, void (*swapFn)(T, T))
   std::cout << a << " " << b << std::endl;
 }
 
-
 int main() {
   int a = 3;
   int b = 2;
-  //void (*fnPtr)(int&, int&) = MySwapRef;
 
+  // swap test
   doSwapTest(a, b, MySwapRef);
   std::cout<< std::endl;
   doSwapTest(&a, &b, MySwapPtr);
   std::cout<< std::endl;
   doSwapTest(a, b, MySwapValue);
-  //fnPtr(a, b);
-  /*
-  std::cout << a << " " << b << std::endl;
-  swapFn(a, b, fnPtr(a, b));
-  std::cout << a << " " << b << std::endl;
+
+  /** Sort
+   * 배열 원소 2개만 있을 때의 정렬
   */
+  std::cout << "### Sort ###"<< std::endl;
+  {
+    int arr[] = { 3, 2 };
+    std::cout << "Before sort : " << arr[0] << " " << arr[1] << std::endl;
+
+    // TODO: ascending sort
+    if (arr[0] > arr[1])
+      swap(arr[0], arr[1]);
+
+    std::cout << "After sort : " << arr[0] << " " << arr[1] << std::endl;
+  }
+
   return 0;
 }
 
