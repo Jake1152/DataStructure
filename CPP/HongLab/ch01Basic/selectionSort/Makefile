@@ -1,7 +1,7 @@
 NAME = selectionSort
 
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = #-Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = selectionSort.cpp
