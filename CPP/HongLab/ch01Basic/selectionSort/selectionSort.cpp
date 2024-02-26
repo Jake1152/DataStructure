@@ -13,36 +13,24 @@ void swap(int &a, int &b) {
  * 특정 정렬방법을 쓰지 않고 
  * 3개의 값만 들어온다는 점을 감안해서 만들어본다
  * 값이 같은 경우가 있어서 min, max를 이용한 방식으로는 답이 안나올 수 있다.
+ * 
+ * 왼쪽이 오른쪽보다 작아야한다.
+ * # Case
+ * 4 2 1
+ *   2 4 1
+ *   2 1 4
+ * 
+ *   1 2 4
+ * 
 */
 void MySort(int *arr, size_t size) 
 {
-  /**
-   *  1. a b c 
-   * 왼쪽이 오른쪽보다 작아야한다.
-  */
-  int max = arr[0];
-  int min = arr[0];
-  int mid = arr[0];
-  if (size == 3) {
-    for (int idx = 1; idx < size; idx++)
+  for (int i = 0; i < size; i++)
+    for (int j = 0; j < size - i - 1; j++)
     {
-      if (arr[idx] > max)
-        max = arr[idx];
-      if (arr[idx] < min)
-        min = arr[idx];
+      if (arr[j] > arr[j + 1])
+        std::swap(arr[j], arr[j + 1]);
     }
-    for (int idx = 1; idx < size; idx++)
-    {
-      if (arr[idx] >= min && arr[idx] <= max)
-        mid = arr[idx];
-    }
-    arr[0] = min;
-    arr[1] = mid;
-    arr[2] = max;
-  } else {
-    // other sort way
-    return ;
-  }
 }
 
 /**
@@ -52,7 +40,10 @@ void MySort(int *arr, size_t size)
 */
 bool  CheckSorted(int *arr, size_t size)
 {
-  return false;
+  for (int idx = 0; idx < size - 1; idx++)
+    if (arr[idx] > arr[idx + 1])
+      return false;
+  return true;
 }
 
 /**
@@ -62,11 +53,12 @@ bool  CheckSorted(int *arr, size_t size)
 int main() {
   // 3개 정렬
   {
-    for (int k = 0; k < 3; k++)
-      for (int j = 0; j < 3; j++)
-        for (int i = 0; i < 3; i++)
+    const int size = 5;
+    for (int k = 0; k < size; k++)
+      for (int j = 0; j < size; j++)
+        for (int i = 0; i < size; i++)
         {
-          int arr[3] = { i, j, k};
+          int arr[size] = { i, j, k, k + 1, k + 2};
           int arr_size = sizeof(arr) / sizeof(arr[0]);
 
           for (int e = 0; e < arr_size; e++)
@@ -77,7 +69,7 @@ int main() {
           std::cout << " -> " << std::flush;
 
           // TODO: 정렬 해보기
-          MySort(arr, 3);
+          MySort(arr, arr_size);
 
           for (int e = 0; e < arr_size; e++)
           {
