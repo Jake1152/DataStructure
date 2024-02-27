@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cassert>
+#include <limits>
 
 void swap(int &a, int &b) {
   int temp;
@@ -53,12 +55,13 @@ bool  CheckSorted(int *arr, size_t size)
 int main() {
   // 3개 정렬
   {
-    const int size = 5;
+    const int size = 3;
     for (int k = 0; k < size; k++)
       for (int j = 0; j < size; j++)
         for (int i = 0; i < size; i++)
         {
-          int arr[size] = { i, j, k, k + 1, k + 2};
+          // int arr[size] = { i, j, k, k + 1, k + 2};
+          int arr[size] = { i, j, k };
           int arr_size = sizeof(arr) / sizeof(arr[0]);
 
           for (int e = 0; e < arr_size; e++)
@@ -80,6 +83,22 @@ int main() {
           std::cout << CheckSorted(arr, arr_size);
           std::cout << std::endl;
         }
+  }
+
+  // 가장 작은 수 찾기
+  {
+    long arr[] = { 42, 233 ,12, 45, 85 , std::numeric_limits<long int>::min(), 44, 42, 34, 77};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    assert(size > 0); // s
+
+    // TODO 
+    long int min_number = std::numeric_limits<long int>::max();
+    for (auto num : arr)
+      if (min_number > num)
+        min_number = num;
+
+    std::cout  << "Minimum number is " << min_number << std::endl;
   }
 
   return 0;
