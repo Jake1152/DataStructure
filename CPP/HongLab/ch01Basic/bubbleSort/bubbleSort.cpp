@@ -1,6 +1,5 @@
 #include <iostream>
 
-using namespace std;
 
 bool CheckSorted(int* arr, int size)
 {
@@ -16,8 +15,8 @@ bool CheckSorted(int* arr, int size)
 void Print(int* arr, int size)
 {
 	for (int i = 0; i < size; i++)
-		cout << arr[i] << " ";
-	cout << endl;
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
 }
 
 void BubbleSort(int *arr, size_t n)
@@ -37,8 +36,8 @@ void BubbleSort(int *arr, size_t n)
 
 int main()
 {
-	int arr[] = { 5, 1, 4, 2, 8 }; // 위키피디아 예시
-	// int arr[] = { 5, 4, 3, 2, 1 }; // Worst Case
+	// int arr[] = { 5, 1, 4, 2, 8 }; // 위키피디아 예시
+	int arr[] = { 5, 4, 3, 2, 1 }; // Worst Case
 	// int arr[] = { 1, 2, 3, 5, 4 }; // Best Case
 	int n = sizeof(arr) / sizeof(arr[0]);
 
@@ -66,8 +65,9 @@ int main()
     }
     
 	}
-  Print(arr, n);
+  std::cout << std::endl;
   std::cout << std::boolalpha << "CheckSorted(arr, n) : " << CheckSorted(arr, n) << std::endl;
+  Print(arr, n);
 
 	// Best case
 	// Stability
