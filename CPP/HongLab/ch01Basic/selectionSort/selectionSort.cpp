@@ -313,48 +313,59 @@ int main() {
 
   // 비교횟수 카운트
   {
-    size_t     size; // = sizeof(arr) / sizeof(arr[0]);
-    std::cout << "Please input arr size : ";
-    std::cin >> size;
-
-    int *arr = new int[size];
+    // 랜덤한 값 생성용  변수 및 함수
     std::random_device  rd;
-
     std::mt19937 gen(rd());
-
     std::uniform_int_distribution<int> dis(std::numeric_limits<int>::min(), \
                                            std::numeric_limits<int>::max());
 
-    // 배열에 랜덤한 값 할당
-    for (int idx = 0; idx < size; idx++)
-      arr[idx] = dis(gen);
-    
-    size_t  compare_count = 0;
+    // size_t     size; // = sizeof(arr) / sizeof(arr[0]);
+    // std::cout << "Please input arr size : ";
+    // std::cin >> size;
 
-    assert(size > 0);
-    Print(arr, size);
-    // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스
-    for (size_t i = 0; i < size - 1; i++)
+    // int *arr = new int[size];
+    // 배열에 랜덤한 값 할당
+    // for (int idx = 0; idx < size; idx++)
+    //   arr[idx] = dis(gen);
+    std::ofstream ofile("log.txt");
+    for (size_t arr_size = 1; arr_size < 1420 ; arr_size++)
     {
-      // 정렬이 안된 범위에서 최소값을 찾는 로직
-      int min_value_index = i;
-      for (size_t j = i + 1; j < size; j++)
+      size_t  compare_count = 0;
+
+      int *arr = new int[arr_size];
+      for (int idx = 0; idx < arr_size; idx++)
       {
-        compare_count++;
-        if (arr[min_value_index ]> arr[j])
-          min_value_index = j;
+        arr[idx] = arr_size - idx;
+        // arr[idx] = dis(gen);
       }
-      if (arr[min_value_index] != arr[i])
-        std::swap(arr[min_value_index], arr[i]);
+      // Print(arr, arr_size);
+      // Selection sort
+      // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스
+      for (size_t i = 0; i < arr_size - 1; i++)
+      {
+        // 정렬이 안된 범위에서 최소값을 찾는 로직
+        int min_value_index = i;
+        for (size_t j = i + 1; j < arr_size; j++)
+        {
+          compare_count++;
+          if (arr[min_value_index] > arr[j])
+            min_value_index = j;
+        }
+        if (arr[min_value_index] != arr[i])
+          std::swap(arr[min_value_index], arr[i]);
+      }
+      // std::cout << std::endl;
+      // Print(arr, arr_size);
+      // if (CheckSorted(arr, arr_size) == false)
+      //   std::cout << "This sorting routine is fail" << std::endl;  
+      // else
+      //   std::cout << "This sorting routine is success!!" << std::endl;  
+      // std::cout << "compare_count : " << compare_count << std::endl;
+      ofile << arr_size << ", " << compare_count << std::endl;
+      delete[] arr;
     }
-    std::cout << std::endl;
-    Print(arr, size);
-    if (CheckSorted(arr, size) == false)
-      std::cout << "This sorting routine is fail" << std::endl;  
-    else
-      std::cout << "This sorting routine is success!!" << std::endl;  
-    std::cout << "compare_count : " << compare_count << std::endl;
-    delete[] arr;
+    ofile.close();
+
   }
 
   return 0;
