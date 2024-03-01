@@ -312,12 +312,12 @@ int main() {
 
 
   // 비교횟수 카운트
-  {
+  // {
     // 랜덤한 값 생성용  변수 및 함수
-    std::random_device  rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(std::numeric_limits<int>::min(), \
-                                           std::numeric_limits<int>::max());
+    // std::random_device  rd;
+    // std::mt19937 gen(rd());
+    // std::uniform_int_distribution<int> dis(std::numeric_limits<int>::min(), \
+    //                                        std::numeric_limits<int>::max());
 
     // size_t     size; // = sizeof(arr) / sizeof(arr[0]);
     // std::cout << "Please input arr size : ";
@@ -327,46 +327,74 @@ int main() {
     // 배열에 랜덤한 값 할당
     // for (int idx = 0; idx < size; idx++)
     //   arr[idx] = dis(gen);
-    std::ofstream ofile("log.txt");
-    for (size_t arr_size = 1; arr_size < 1420 ; arr_size++)
+  //   std::ofstream ofile("log.txt");
+  //   for (size_t arr_size = 1; arr_size < 1420 ; arr_size++)
+  //   {
+  //     size_t  compare_count = 0;
+
+  //     int *arr = new int[arr_size];
+  //     for (int idx = 0; idx < arr_size; idx++)
+  //     {
+  //       arr[idx] = arr_size - idx;
+  //       // arr[idx] = dis(gen);
+  //     }
+  //     // Print(arr, arr_size);
+  //     // Selection sort
+  //     // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스
+  //     for (size_t i = 0; i < arr_size - 1; i++)
+  //     {
+  //       // 정렬이 안된 범위에서 최소값을 찾는 로직
+  //       int min_value_index = i;
+  //       for (size_t j = i + 1; j < arr_size; j++)
+  //       {
+  //         compare_count++;
+  //         if (arr[min_value_index] > arr[j])
+  //           min_value_index = j;
+  //       }
+  //       if (arr[min_value_index] != arr[i])
+  //         std::swap(arr[min_value_index], arr[i]);
+  //     }
+  //     // std::cout << std::endl;
+  //     // Print(arr, arr_size);
+  //     // if (CheckSorted(arr, arr_size) == false)
+  //     //   std::cout << "This sorting routine is fail" << std::endl;  
+  //     // else
+  //     //   std::cout << "This sorting routine is success!!" << std::endl;  
+  //     // std::cout << "compare_count : " << compare_count << std::endl;
+  //     ofile << arr_size << ", " << compare_count << std::endl;
+  //     delete[] arr;
+  //   }
+  //   ofile.close();
+  // }
+
+  
+	// 안정성 확인(unstable)
+	{
+		Element arr[] = { {2, 'a'}, {2, 'b'}, {1, 'c'} };
+		int size = sizeof(arr) / sizeof(arr[0]);
+
+		Print(arr, size); // arr이 Element의 배열
+		// TODO: key만 가지고 비교
+    for (size_t i = 0; i < size - 1; i++)
     {
-      size_t  compare_count = 0;
-
-      int *arr = new int[arr_size];
-      for (int idx = 0; idx < arr_size; idx++)
-      {
-        arr[idx] = arr_size - idx;
-        // arr[idx] = dis(gen);
-      }
-      // Print(arr, arr_size);
-      // Selection sort
-      // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스
-      for (size_t i = 0; i < arr_size - 1; i++)
-      {
-        // 정렬이 안된 범위에서 최소값을 찾는 로직
-        int min_value_index = i;
-        for (size_t j = i + 1; j < arr_size; j++)
-        {
-          compare_count++;
-          if (arr[min_value_index] > arr[j])
-            min_value_index = j;
-        }
-        if (arr[min_value_index] != arr[i])
-          std::swap(arr[min_value_index], arr[i]);
-      }
-      // std::cout << std::endl;
-      // Print(arr, arr_size);
-      // if (CheckSorted(arr, arr_size) == false)
-      //   std::cout << "This sorting routine is fail" << std::endl;  
-      // else
-      //   std::cout << "This sorting routine is success!!" << std::endl;  
-      // std::cout << "compare_count : " << compare_count << std::endl;
-      ofile << arr_size << ", " << compare_count << std::endl;
-      delete[] arr;
+      // 정렬이 안된 범위에서 최소값을 찾는 로직
+      int min_value_index = i;
+      for (size_t j = i + 1; j < size; j++)
+        if (arr[min_value_index].key > arr[j].key)
+          min_value_index = j;
+      if (arr[min_value_index].key != arr[i].key)
+        std::swap(arr[min_value_index], arr[i]);
+		  Print(arr, size); // arr이 Element의 배열
     }
-    ofile.close();
-
-  }
+    /**
+     * 2 2 1 
+      a b c 
+      1 2 2 
+      c b a 
+      1 2 2 
+      c b a 
+    */
+	}
 
   return 0;
 }
