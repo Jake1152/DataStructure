@@ -2,6 +2,7 @@
 #include <cassert>
 #include <limits>
 #include <fstream>
+#include <random>
 
 struct Element
 {
@@ -180,6 +181,13 @@ void SelectionSort(int *arr, size_t size) {
   }
 }
 
+// Deprecated
+// size_t  CountCompareTimes()
+// {
+//   size_t  count = 0;
+//   return count;
+// }
+
 
 /**
  * 3개의 인자가 있는 배열을 넘겨받아서 화면에 출력 
@@ -260,12 +268,93 @@ int main() {
     int arr[] = { 42, 45, 85 , std::numeric_limits<int>::min(), 44, 42, 34, 77};
     int size = sizeof(arr) / sizeof(arr[0]);
 
-    Print(arr, size);
-    SelectionSort(arr, size);
-    Print(arr, size);
+    // // Print(arr, size);
+    // SelectionSort(arr, size);
+    // Print(arr, size);
 
     // double double_arr[] = { 3.14, 5.24};
     // GetMinValueOfArr(double_arr, size);
+  }
+
+  /** selection sort non function version using call by value
+   * 문제의 케이스
+   * 결과
+   * 42 45 85 -2147483648 44 42 34 77 
+    -2147483648 -2147483648 -2147483648 -2147483648 34 34 34 77 
+   * 이유
+      arr에 min값이 계속 남아 있이서 종복으로 나타나게 된다.
+  */
+  // {
+  //   int arr[] = { 42, 45, 85 , std::numeric_limits<int>::min(), 44, 42, 34, 77};
+  //   int size = sizeof(arr) / sizeof(arr[0]);
+
+  //   assert(size > 0);
+  //   Print(arr, size);
+  //   // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스    
+  //   for (size_t i = 0; i < size - 1; i++)
+  //   {
+  //     // 정렬이 안된 범위에서 최소값을 찾는 로직
+  //     // min_value 변수와 arr배열에 있는 값과의 교환이기 떄문에 
+  
+  //     int *min_value = &arr[i];
+  //     // std::cout << "# Before compare min_value : " << min_value << std::endl;
+  //     for (size_t j = i + 1; j < size; j++)
+  //     {
+  //       if (*min_value > arr[j])
+  //         *min_value= arr[j];
+  //     }
+  //     // std::cout << "## After compare min_value : " << min_value << std::endl;
+  //     if (*min_value != arr[i])
+  //       std::swap(*min_value, arr[i]);
+  //   }
+  //   Print(arr, size);
+  // }
+
+
+  // 비교횟수 카운트
+  {
+    size_t     size; // = sizeof(arr) / sizeof(arr[0]);
+    std::cout << "Please input arr size : ";
+    std::cin >> size;
+
+    int *arr = new int[size];
+    std::random_device  rd;
+
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> dis(std::numeric_limits<int>::min(), \
+                                           std::numeric_limits<int>::max());
+
+    // 배열에 랜덤한 값 할당
+    for (int idx = 0; idx < size; idx++)
+      arr[idx] = dis(gen);
+    
+    size_t  compare_count = 0;
+
+    assert(size > 0);
+    Print(arr, size);
+    // 앞으로 정렬이 될 값이 들어가게될 자리의 인덱스
+    for (size_t i = 0; i < size - 1; i++)
+    {
+      // 정렬이 안된 범위에서 최소값을 찾는 로직
+      int min_value_index = i;
+      for (size_t j = i + 1; j < size; j++)
+      {
+        compare_count++;
+        if (arr[min_value_index ]> arr[j])
+          min_value_index = j;
+      }
+      if (arr[min_value_index] != arr[i])
+        std::swap(arr[min_value_index], arr[i]);
+    }
+    std::cout << std::endl;
+    Print(arr, size);
+    if (CheckSorted(arr, size) == false)
+      std::cout << "This sorting routine is fail" << std::endl;  
+    else
+      std::cout << "This sorting routine is success!!" << std::endl;  
+    std::cout << "compare_count : " << compare_count << std::endl;
+    delete[] arr;
   }
 
   return 0;
