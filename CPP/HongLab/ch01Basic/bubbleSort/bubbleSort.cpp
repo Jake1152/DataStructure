@@ -78,8 +78,6 @@ int main()
       bool swapped = false;
       for (int j = 0; j < n - i - 1; j++)
       {
-        if (swapped)
-          break ;
         if (arr[j] > arr[j + 1])
         {
           std::cout << "  -> swap() " << arr[j] << "," << arr[j + 1] << std::endl;
@@ -89,10 +87,10 @@ int main()
         std::cout << "  ";
         Print(arr, n);
       }
+      if (swapped)
+        break ;
     }
 	}
-
-
   std::cout << std::endl;
   std::cout << std::boolalpha << "CheckSorted(arr, n) : " << CheckSorted(arr, n) << std::endl;
   Print(arr, n);
