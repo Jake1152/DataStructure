@@ -27,21 +27,23 @@ void insertionSort(int *arr, size_t size)
 	for (int i = 0; i < size; i++){
 		int current_picked_value = arr[i];
 		// 오른쪽으로 밀어내면서 복사
-		for (int j = i; j > 0; j--)
+		int j = i;
+		for (; j > 0 && arr[j - 1] > current_picked_value; j--)
 		{
 			arr[j] = arr[j - 1];
 			std::cout << "    Before : " << std::flush;
 			Print(arr, size);
-			if (arr[j] <= current_picked_value)
-			{
-				arr[j] = current_picked_value;
-				break ;
-			} 
-			else if (j == 1)
-				arr[0] = current_picked_value;
+			// if (arr[j] <= current_picked_value)
+			// {
+			// 	arr[j] = current_picked_value;
+			// 	break ;
+			// } 
+			// else if (j == 1)
+			// 	arr[0] = current_picked_value;
 			std::cout << "    After : " << std::flush;
 			Print(arr, size);
 		}
+		arr[j] = current_picked_value;
 		std::cout << "  " << std::flush;
 		Print(arr, size);
 	}
@@ -60,14 +62,22 @@ int main()
 
 		// i = 4인 경우에 대해서 구현
 		int i = 4;
-		int tmp = arr[i];
+		int pick = arr[i];
+		int j = i;
 		// 오른쪽으로 밀어내면서 복사
-		for (int idx = i; idx > 0; idx--)
+		for (; j > 0 && arr[j-1] > pick; j--)
 		{
-			arr[idx] = arr[idx - 1];
+			// if (arr[j-1] <= pick)
+			// {
+			// 	arr[j] = pick;
+			// 	break ;
+			// }
+			arr[j] = arr[j - 1];
+
 			std::cout << "  " << std::flush;
 			Print(arr, n);
 		}
+		arr[j] = pick;
 
 		Print(arr, n);
 		cout << endl;
