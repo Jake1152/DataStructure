@@ -24,14 +24,14 @@ void insertionSort(int *arr, size_t size)
 {
 	std::cout << "# " << std::flush;
 	Print(arr,size);
-	for (int i = 0; i < size; i++){
+	for (int i = 1; i < size; i++){
 		int current_picked_value = arr[i];
 		// 오른쪽으로 밀어내면서 복사
 		int j = i;
 		for (; j > 0 && arr[j - 1] > current_picked_value; j--)
 		{
 			arr[j] = arr[j - 1];
-			std::cout << "    Before : " << std::flush;
+			std::cout << "    Inner : " << std::flush;
 			Print(arr, size);
 			// if (arr[j] <= current_picked_value)
 			// {
@@ -40,11 +40,11 @@ void insertionSort(int *arr, size_t size)
 			// } 
 			// else if (j == 1)
 			// 	arr[0] = current_picked_value;
-			std::cout << "    After : " << std::flush;
-			Print(arr, size);
+			// std::cout << "    After : " << std::flush;
+			// Print(arr, size);
 		}
 		arr[j] = current_picked_value;
-		std::cout << "  " << std::flush;
+		std::cout << "  Outer : " << std::flush;
 		Print(arr, size);
 	}
 	std::cout << "# " << std::flush;
