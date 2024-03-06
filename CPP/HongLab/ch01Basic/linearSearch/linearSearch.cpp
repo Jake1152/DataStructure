@@ -75,13 +75,22 @@ size_t	Count(int* arr, int n, int x)
 int SequentialSearch(int* arr, int n, int x)
 {
 	// TODO:
-	for (size_t idx = 0; idx < n; idx++)
+	// mine
+	// for (size_t idx = 0; idx < n; idx++)
+	// {
+	// 	// std::cout << "arr[idx] : " << arr[idx] << std::endl;
+	// 	if (arr[idx] == x)
+	// 		return idx;
+	// }
+	// Horowitz book style
+	int idx;
+	for (idx = 0; idx < n && arr[idx] != x; idx++)
 	{
-		// std::cout << "arr[idx] : " << arr[idx] << std::endl;
-		if (arr[idx] == x)
-			return idx;
+		/* Do Nothing */ 
+		// 가독성을 위해 아무 것도 안하고 idx만 증가시키는 것을 명시함
 	}
-	return -1;
+	if (idx == n) return -1;
+	return idx;
 }
 
 int SortedCountHelper(int* arr, int n, int x, int start) // start 사용
@@ -92,6 +101,8 @@ int SortedCountHelper(int* arr, int n, int x, int start) // start 사용
 		// std::cout << "arr[idx] : " << arr[idx] << std::endl;
 		if (arr[idx] == x)
 			count++;
+		else
+			break ; // 정렬이 된 배열에서 찾으므로 다른 값이 나오기 시작했다면 더 이상 볼 필요가 없다
 	}
 	return count;
 }
