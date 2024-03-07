@@ -120,15 +120,24 @@ int main()
 
 	cout << c;
 
+	/**
+	 * 굳이 조건문을 더 추가할 필요 없이 일치하는 문자이면 count만 증가시키면 되며
+	 * 다른 문자가 나오게 되면 이전까지 담아둔 값을 출력하고 
+	 * count와 출력 형식을 새로 들어온 문자에 맞게 초기화하여 반복문을 진행한다
+	*/
 	for (int i = 1; i < arr_size; i++)
 	{
 		if (arr[i] == c)
 		{
 			// TODO: ...
+			count++;
 		}
 		else
 		{
 			// TODO: ...
+			std::cout << count  << arr[i] << std::flush;
+			c = arr[i];
+			count = 1;
 		}
 	}
 
