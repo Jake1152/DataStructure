@@ -43,7 +43,7 @@ int main()
 
 	// char arr[] = "ababcdfdceeefda";
 	// char arr[] = "a";
-	char arr[] = "ababcdfdceeedag";
+	char arr[] = "ababcdfdceeedaggkkkklllmmxxxyyyzz";
 	int arr_size = sizeof(arr) - 1; // 마지막 안보이는 '\0' 제외
 
 	// 글자가 하나이상이라고 가정
@@ -74,11 +74,13 @@ int main()
 
 		// 표를 만들지 않고 직접 출력하는 방법
 		int cur_char_count = Count(arr, arr_size, cur_char);
-		std::cout << cur_char << cur_char_count  << std::flush;
-		iter -= cur_char_count;
-		if (iter <= 0)
-			break ;
-		// ...
+		// iter -= cur_char_count;
+		// if (iter <= 0)
+		// 	break ;
+		// 굳이 iter -= cur_char_count;를 할 필요가 없었다 
+		// 이미 지금 출력해도 될지 안될지를 cur_char_count 개수를 통해 알 수 있었다
+		if (cur_char_count > 0)
+			std::cout << cur_char << cur_char_count  << std::flush;
 	}
 	cout << endl;
 	// 출력 table 사용하는 방식
