@@ -33,21 +33,17 @@ int BinarySearch(int* arr, int n, int x) // 이진 탐색
 		cnt++;
 
 		// int middle = ... ; // 정수 나누기 (버림)A
-
-		// int middle = static_cast<int>((left + right) / 2);
-		// 정확한 표현
-		int middle = static_cast<int>(floor((left + right) / 2.0f));
+		int middle = static_cast<int>((left + right) / 2);
 
 		cout << "middle " << middle << endl;
-		if (arr[middle] == x)
+		/**
+		 * 강의에서는 타겟과 middle에 있는 값이 일치하는 경우를 else로 뺴고
+		 * 그보다 이전에 타겟보다 크거나 작은 경우들에 먼저 비교되게 하였다
+		 * 사소하지만 타겟을 찾는 경우보다 타겟보다 크거나 작은 경우가 더 많이 나올 것이므로
+		 * 부등호 조건을 먼저 비교하는게 비교연산 횟수를 줄일 수 있을 것이다.
+		*/
+		if (arr[middle] < x)
 		{
-			cout << "Found " << middle << endl;
-			cout << "# Number of times it took to find : " << cnt << endl;
-			return middle;
-		}
-		else if (arr[middle] < x)
-		{
-
 			left = middle + 1;
 			cout << "left " << left << endl;
 		}
@@ -55,6 +51,12 @@ int BinarySearch(int* arr, int n, int x) // 이진 탐색
 		{
 			right = middle - 1;
 			cout << "right " << right << endl;
+		}
+		else // arr[middle] == x
+		{
+			cout << "Found " << middle << endl;
+			cout << "# Number of times it took to find : " << cnt << endl;
+			return middle;
 		}
 	}
 
