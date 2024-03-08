@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <iomanip>      // std::setw
 
 #include <cassert>
@@ -22,8 +23,8 @@ void PrintHelper(int* arr, int n, int left, int right)
 
 int BinarySearch(int* arr, int n, int x) // 이진 탐색
 {
-	int left = 0;
-	int right = n - 1;
+	int 	left = 0;
+	int 	right = n - 1;
 	size_t	cnt = 0;
 
 	while (left <= right)
@@ -32,7 +33,10 @@ int BinarySearch(int* arr, int n, int x) // 이진 탐색
 		cnt++;
 
 		// int middle = ... ; // 정수 나누기 (버림)A
-		int middle = static_cast<int>((left + right) / 2);
+
+		// int middle = static_cast<int>((left + right) / 2);
+		// 정확한 표현
+		int middle = static_cast<int>(floor((left + right) / 2.0f));
 
 		cout << "middle " << middle << endl;
 		if (arr[middle] == x)
@@ -72,8 +76,8 @@ int main()
 
 	BinarySearch(arr, n, 10);
 
-	// for (int x = 0; x < n; x++)
-	// 	cout << x << " " << BinarySearch(arr, n, x) << endl << endl;
+	for (int x = 0; x < n; x++)
+		cout << x << " " << BinarySearch(arr, n, x) << endl << endl;
 
 	return 0;
 }
