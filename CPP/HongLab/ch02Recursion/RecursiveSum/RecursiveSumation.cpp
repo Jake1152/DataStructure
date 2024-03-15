@@ -43,11 +43,39 @@ int RecurSum(int* arr, int n)
 	= ...
 	*/
 	// <- TODO: 
+	// My version
 	if (n == 1)
 		return arr[0];
 	// RecurSum(arr, n - 1) + arr[n - 1]; // 함수의 return이 void가 아니므로 무조건 return이 있어야한다
 	return RecurSum(arr, n - 1) + arr[n - 1];
+
 }
+
+/** Lecture example00
+ * n이 0 이하일때로 되어있기에 혹시나 0보다 작아지는 경우를 버커할 수 있어서
+ * 좀더 안전한 코드가 되지 않을까 싶다.
+ * 
+*/
+// int RecurSum(int* arr, int n)
+// {
+// 	if (n <= 0)
+// 	{
+// 		return 0;
+// 	}
+// 	{
+// 		return RecurSum(arr, n - 1) + arr[n - 1];
+// 	}
+// }
+
+
+/** Lecture example01 Horowitz 
+*/
+// float rsum(float list[], int n)
+// {
+// 	if (n) return rsum(list, n-1) + list[n-1];
+// 	return 0;
+// }
+
 
 int main()
 {
