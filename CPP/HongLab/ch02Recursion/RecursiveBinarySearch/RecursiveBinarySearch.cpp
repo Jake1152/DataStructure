@@ -35,7 +35,7 @@ int BinarySearch(int* arr, int n, int x)
 	return -1; // Not found
 }
 
-/** mine 
+/** mine */
 int RecurBinarySearch(int* arr, int left, int right, int target) // n 대신에 left, right
 {
 	if (left > right)
@@ -46,19 +46,18 @@ int RecurBinarySearch(int* arr, int left, int right, int target) // n 대신에 
 	if (arr[mid] > target)
 	{
 		right = mid - 1;
-		return RecurBinarySearch(arr, left, right, target);
 	}
 	else if (arr[mid] < target)
 	{
 		left = mid + 1;
-		return RecurBinarySearch(arr, left, right, target);
 	}
 	else // if (arr[mid] == target)
 		return mid;
+	return RecurBinarySearch(arr, left, right, target);
 }
-*/
 
-/** hong lab */
+
+/** hong lab
 int RecurBinarySearch(int* arr, int left, int right, int target) // n 대신에 left, right
 {
 	if (left <= right)
@@ -78,14 +77,15 @@ int RecurBinarySearch(int* arr, int left, int right, int target) // n 대신에 
 	}
 	return -1;
 }
+ */
 
 int main()
 {
 	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	int n = sizeof(arr) / sizeof(arr[0]);
 
-	cout << BinarySearch(arr, n, 12) << endl;
-	cout << RecurBinarySearch(arr, 0, n - 1, 12) << endl;
+	cout << BinarySearch(arr, n, 10) << endl;
+	cout << RecurBinarySearch(arr, 0, n - 1, 10) << endl;
 
 	return 0;
 }
