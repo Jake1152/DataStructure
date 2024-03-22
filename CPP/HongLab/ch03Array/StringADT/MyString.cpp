@@ -186,8 +186,8 @@ int MyString::Find(MyString pat)
 	// 	return char_pos - this->str_;
 	for (size_t idx = 0; idx < this->size_; idx++)
 	{
-		if (std::strncmp(&(this->str_[idx]), pat.str_, \
-							std::min(pat.size_, this->size_ - idx)) == 0)
+		size_t	cur_str_part_size = this->size_ - idx;
+		if (cur_str_part_size >= pat.size_ && std::strncmp(&(this->str_[idx]), pat.str_, pat.size_) == 0)
 			return idx;
 	}
 	return -1;
