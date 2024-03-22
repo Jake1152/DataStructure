@@ -43,19 +43,23 @@ MyString::MyString(const MyString& str)
 
 MyString::~MyString()
 {
-	// 메모리 해제
-	delete [] this->str_;
-	/**
-	 * 혹시 각 요소를 할당 해제하면 나아질것인가?
-	 * 할당 해제 순서를 앞에서 뒤로, 뒤에서 앞으로 바꾸었을 때 에러 회수가 달라짐
-	*/
-	// for (size_t idx = 0; idx < this->size_; idx++)  // -> ERROR SUMMARY: 391 errors from 61 contexts (suppressed: 0 from 0)
-	// for (size_t idx = this->size_; idx > 0; idx--) // ->ERROR SUMMARY: 422 errors from 62 contexts (suppressed: 0 from 0)
-	// {
-	// 	delete &(this->str_[idx]);
-	// }
-	this->str_ = nullptr;
-	this->size_ = 0;
+	// 할당이 안되었을 수도 있으므로 그런 경우 확인.
+	if (this->str_ != nullptr)
+	{
+		// 메모리 해제
+		delete [] this->str_;
+		/**
+		 * 혹시 각 요소를 할당 해제하면 나아질것인가?
+		 * 할당 해제 순서를 앞에서 뒤로, 뒤에서 앞으로 바꾸었을 때 에러 회수가 달라짐
+		*/
+		// for (size_t idx = 0; idx < this->size_; idx++)  // -> ERROR SUMMARY: 391 errors from 61 contexts (suppressed: 0 from 0)
+		// for (size_t idx = this->size_; idx > 0; idx--) // ->ERROR SUMMARY: 422 errors from 62 contexts (suppressed: 0 from 0)
+		// {
+		// 	delete &(this->str_[idx]);
+		// }
+		this->str_ = nullptr;
+		this->size_ = 0;
+	}
 }
 
 bool MyString::IsEmpty()
@@ -100,10 +104,38 @@ void MyString::Resize(size_t new_size)
 	*/
 
 	// # way 01 
-	MyString	temp_MyString(*this);
+	/**
+	 * 현재 MyString.str_이 비었거나 new_size 더 짧으면 문제가 됨. segmentation fault
+	*/
+	// if (new_size != this->size_) 
+	// {
+	// 	MyString	temp_MyString(*this);
+	// 	size_t		cpy_size;
 
-	this->size_ = new_size;
-	memcpy(this->str_, temp_MyString.str_, this->size_);
+	// 	this->size_ = new_size;
+	// 	// memcpy(this->str_, temp_MyString.str_, this->size_);
+	// 	cpy_size = this->size_ > temp_MyString.size_ ? temp_MyString.size_ : this->size_;	
+	// 	memcpy(this->str_, temp_MyString.str_, cpy_size);
+	// }
+
+	// # hong lab 아래 조건 추가
+	// if (new_size != this->size_) {}
+	// 복사할 사이즈로 둘 중 더 작은 것 추가
+	if (new_size != this->size_) 
+	{
+		// MyString	temp_MyString(*this);
+
+		char		*new_str = new char[new_size];
+		size_t		cpy_size;
+
+		// memcpy(this->str_, temp_MyString.str_, this->size_);
+		cpy_size = this->size_ > new_size ? new_size : this->size_;	
+		memcpy(new_str, this->str_, cpy_size);
+
+		delete [] this->str_;
+		this->str_ = new_str;
+		this->size_ = new_size;
+	}
 }
 
 // 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
@@ -112,13 +144,24 @@ MyString MyString::Substr(size_t start, size_t num)
 	// 복사할 인덱스: start, start + 1, ... , start + num - 1
 	assert(start + num < this->size_ + 1); // 문제를 단순하게 만들기 위해 가정
 
-	MyString temp;
 
 	// TODO:
-	temp.size_ = num;
-	temp.str_ = new char[num];
-	for (size_t idx = 0; idx < num; idx++)
-		temp.str_[idx] = this->str_[start + idx];
+	// MyString temp;
+
+	// temp.size_ = num;
+	// temp.str_ = new char[num];
+	// for (size_t idx = 0; idx < num; idx++)
+	// 	temp.str_[idx] = this->str_[start + idx];
+	// return temp;
+
+	/**
+	 *  honglab, Resize 이용
+	*/
+	MyString temp;
+
+	temp.Resize(num);
+	std::memcpy(temp.str_, this->str_, num);
+
 	return temp;
 }
 
