@@ -40,11 +40,25 @@ int main()
 		cout << str3.IsEqual(MyString("Hay, World!")) << endl;
 	}
 
+	// Resize()
+	{
+
+		std::cout << "\n# Resize Test" << std::endl;
+		MyString str1("Hello, World!");
+		MyString str2(str1);
+
+		str1.Print();
+		str2.Resize(str2.Length() / 2);
+		str2.Print();
+	}
+
 	// Insert()
 	{
+		std::cout << "\n# Insert Test" << std::endl;
 		MyString str4("ABCDE");
-		for (int i = 0; i <= str4.Length(); i++)
+		for (size_t i = 0; i < str4.Length(); i++)
 		{
+			// MyString str5 = str4.Insert(MyString("123"), i);
 			MyString str5 = str4.Insert(MyString("123"), i);
 			str5.Print();
 		}
@@ -67,5 +81,6 @@ int main()
 		str3.Print();
 	}
 
+	// while (1);
 	return 0;
 }

@@ -45,11 +45,11 @@ public:
 	bool 	IsEmpty();
 	bool	IsEqual(const MyString& str);
 	size_t	Length();
-	void	Resize(int new_size);
+	void	Resize(size_t new_size);
 
 	MyString Substr(int start, int num);	// 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
 	MyString Concat(MyString app_str);		// 뒤에 덧붙인 새로운 문자열 반환 (append)
-	MyString Insert(MyString target, int start); // 중간에 삽입
+	MyString Insert(MyString target, size_t start); // 중간에 삽입
 
 	int Find(MyString pat);
 

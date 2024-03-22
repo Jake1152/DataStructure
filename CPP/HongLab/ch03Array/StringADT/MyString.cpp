@@ -44,7 +44,7 @@ MyString::MyString(const MyString& str)
 MyString::~MyString()
 {
 	// 메모리 해제
-	delete this->str_;
+	delete [] this->str_;
 	this->str_ = nullptr;
 	this->size_ = 0;
 }
@@ -75,17 +75,17 @@ size_t	MyString::Length()
 /**
  * 사이즈가 더 작아지는 경우는?
 */
-void MyString::Resize(int new_size)
+void MyString::Resize(size_t new_size)
 {
 	// 메모리 재할당과 원래 갖고 있던 내용 복사
-	if (this->size_ == 0)
-	{
-		// Do something
-	}
-	else
-	{
-		// this->size_;
-	}
+	char	*temp_str = nullptr;
+	
+	temp_str = new char[this->size_];
+	std::memcpy(temp_str, this->str_, this->size_);
+	// delete this->str_;
+	this->size_ = new_size;
+	std::memcpy(this->str_, temp_str, new_size);
+	delete [] temp_str;
 }
 
 // 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
@@ -124,29 +124,30 @@ MyString MyString::Concat(MyString app_str)
  * 2. start부터 target문자열 길이만큼
  * 3. start + strlen(target) ~ size_ + strlen(target)
 */
-MyString MyString::Insert(MyString target, int start)
+MyString MyString::Insert(MyString target, size_t start)
 {
-	assert(start >= 0);
+	// assert(start >= 0); // size_t라서 제거.
 	assert(start <= this->size_);
 
-	MyString	temp;
+	MyString	result_MyString;
 	size_t		target_size;
 
 	target_size = target.Length();
-	temp.str_ = new char[target_size + this->size_];
+	result_MyString.size_ = target_size + this->size_;
+	result_MyString.str_ = new char[result_MyString.size_];
 	// TODO:
 	// 1. start 이전 부분 복사 
 	for (size_t idx = 0; idx < start; idx++)
-		temp.str_[idx] = target.str_[idx];
+		result_MyString.str_[idx] = this->str_[idx];
 	// this->str_[idx] = init[idx];
 	// * 2. start부터 start + target문자열 길이만큼
 	for (size_t idx = start; idx < start + target_size; idx++)
-		temp.str_[idx] = target.str_[idx];
-	// * 3. start + strlen(target) ~ size_ + strlen(target)
-	for (size_t idx = start + target_size; idx < this->size_ + target_size; idx++)
-		temp.str_[idx] = target.str_[idx];
+		result_MyString.str_[idx] = target.str_[idx - start];
+	// * 3. start + strlen(target) ~ size_ + strlen(target) // \0이 없으므로 생성자 이후로는 \0인 점을 이용하는 함수는 쓰지 말아야함
+	for (size_t idx = start + target_size; idx < result_MyString.size_; idx++)
+		result_MyString.str_[idx] = this->str_[idx - (start + target_size)];
 
-	return temp;
+	return result_MyString;
 }
 
 /**
@@ -164,7 +165,8 @@ int MyString::Find(MyString pat)
 	// 	return char_pos - this->str_;
 	for (size_t idx = 0; idx < this->size_; idx++)
 	{
-		if (std::strncmp(&(this->str_[idx]), pat.str_, pat.size_) == 0)
+		if (std::strncmp(&(this->str_[idx]), pat.str_, \
+							std::min(pat.size_, this->size_ - idx)) == 0)
 			return idx;
 	}
 	return -1;
@@ -172,7 +174,7 @@ int MyString::Find(MyString pat)
 
 void MyString::Print()
 {
-	for (int idx = 0; idx < size_; idx++)
+	for (size_t idx = 0; idx < size_; idx++)
 		std::cout << str_[idx];
 	std::cout << endl;
 }
