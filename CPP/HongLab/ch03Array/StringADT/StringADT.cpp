@@ -50,15 +50,21 @@ int main()
 		str1.Print();
 		str2.Resize(str2.Length() / 2);
 		str2.Print();
+		str2.Resize(str2.Length() / 2);
+		str2.Print();
+		str2.Resize(str2.Length() / 2);
+		str2.Print();
+		str2.Resize(str2.Length() / 2);
+		str2.Print();
+		std::cout << "str2.Length() : " << str2.Length() << std::endl;
 	}
 
 	// Insert()
 	{
 		std::cout << "\n# Insert Test" << std::endl;
 		MyString str4("ABCDE");
-		for (size_t i = 0; i < str4.Length(); i++)
+		for (size_t i = 0; i <= str4.Length(); i++)
 		{
-			// MyString str5 = str4.Insert(MyString("123"), i);
 			MyString str5 = str4.Insert(MyString("123"), i);
 			str5.Print();
 		}
@@ -66,6 +72,7 @@ int main()
 
 	// Substr()
 	{
+		std::cout << "\n# Substr Test" << std::endl;
 		MyString str("ABCDEFGHIJ");
 
 		str.Substr(3, 4).Print();
@@ -73,6 +80,7 @@ int main()
 
 	// Concat()
 	{
+		std::cout << "\n# Concat Test" << std::endl;
 		MyString str1("Hello, ");
 		MyString str2("World!");
 

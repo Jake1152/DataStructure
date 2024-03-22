@@ -45,10 +45,18 @@ MyString::~MyString()
 {
 	// 메모리 해제
 	delete [] this->str_;
+	/**
+	 * 혹시 각 요소를 할당 해제하면 나아질것인가?
+	 * 할당 해제 순서를 앞에서 뒤로, 뒤에서 앞으로 바꾸었을 때 에러 회수가 달라짐
+	*/
+	// for (size_t idx = 0; idx < this->size_; idx++)  // -> ERROR SUMMARY: 391 errors from 61 contexts (suppressed: 0 from 0)
+	// for (size_t idx = this->size_; idx > 0; idx--) // ->ERROR SUMMARY: 422 errors from 62 contexts (suppressed: 0 from 0)
+	// {
+	// 	delete &(this->str_[idx]);
+	// }
 	this->str_ = nullptr;
 	this->size_ = 0;
 }
-
 
 bool MyString::IsEmpty()
 {
@@ -78,26 +86,39 @@ size_t	MyString::Length()
 void MyString::Resize(size_t new_size)
 {
 	// 메모리 재할당과 원래 갖고 있던 내용 복사
-	char	*temp_str = nullptr;
 	
+	// # way 00 chat *로 된 별도 변수에 값 임시 복사
+	/*
+	char	*temp_str = nullptr;
+
 	temp_str = new char[this->size_];
 	std::memcpy(temp_str, this->str_, this->size_);
 	// delete this->str_;
 	this->size_ = new_size;
 	std::memcpy(this->str_, temp_str, new_size);
 	delete [] temp_str;
+	*/
+
+	// # way 01 
+	MyString	temp_MyString(*this);
+
+	this->size_ = new_size;
+	memcpy(this->str_, temp_MyString.str_, this->size_);
 }
 
 // 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
-MyString MyString::Substr(int start, int num)
+MyString MyString::Substr(size_t start, size_t num)
 {
 	// 복사할 인덱스: start, start + 1, ... , start + num - 1
-	// assert(start + num - 1 < this->size_); // 문제를 단순하게 만들기 위해 가정
+	assert(start + num < this->size_ + 1); // 문제를 단순하게 만들기 위해 가정
 
 	MyString temp;
 
 	// TODO:
-
+	temp.size_ = num;
+	temp.str_ = new char[num];
+	for (size_t idx = 0; idx < num; idx++)
+		temp.str_[idx] = this->str_[start + idx];
 	return temp;
 }
 
@@ -106,11 +127,11 @@ MyString MyString::Substr(int start, int num)
 */
 MyString MyString::Concat(MyString app_str)
 {
-	MyString temp;
+	// MyString temp;
+	// return temp;
 
 	// TODO: 
-
-	return temp;
+	return this->Insert(app_str, this->size_);
 }
 
 /**
@@ -145,7 +166,7 @@ MyString MyString::Insert(MyString target, size_t start)
 		result_MyString.str_[idx] = target.str_[idx - start];
 	// * 3. start + strlen(target) ~ size_ + strlen(target) // \0이 없으므로 생성자 이후로는 \0인 점을 이용하는 함수는 쓰지 말아야함
 	for (size_t idx = start + target_size; idx < result_MyString.size_; idx++)
-		result_MyString.str_[idx] = this->str_[idx - (start + target_size)];
+		result_MyString.str_[idx] = this->str_[idx - target_size];
 
 	return result_MyString;
 }
