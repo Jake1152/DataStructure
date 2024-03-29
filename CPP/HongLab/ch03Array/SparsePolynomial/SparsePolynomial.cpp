@@ -66,7 +66,7 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial& poly)
 	SparsePolynomial temp;
 
 	// TODO:
-	size_t max_iter = std::max(this->num_terms_, poly.num_terms_);
+	size_t max_iter = std::min(this->num_terms_, poly.num_terms_);
 	for (size_t iter = 0; iter < max_iter; iter++)
 	{
 		if (this->terms_[iter].exp == poly.terms_[iter].exp)
@@ -82,6 +82,14 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial& poly)
 			temp.NewTerm(poly.terms_[iter].coef, poly.terms_[iter].exp);
 		}
 	}
+
+	const SparsePolynomial *temp_ptr;
+
+	temp_ptr = this;
+	if (poly.num_terms_ > this->num_terms_)
+		temp_ptr = &poly;
+	for (size_t iter = max_iter; iter < std::max(this->num_terms_, poly.num_terms_); iter++)
+		temp.NewTerm(temp_ptr->terms_[iter].coef, temp_ptr->terms_[iter].exp);
 	// for (size_t iter = 0; iter < this->num_terms_; iter++)
 	// {
 	// 	for (size_t arg_poly_iter = 0; arg_poly_iter < poly.num_terms_; arg_poly_iter++)
