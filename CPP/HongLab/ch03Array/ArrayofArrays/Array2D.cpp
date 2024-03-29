@@ -7,6 +7,7 @@
 using namespace std;
 
 Array2D::Array2D(int num_rows, int num_cols)
+	: num_rows_(num_rows), num_cols_(num_cols)
 {
 	//TODO:
 	this->arrays_ = new float *[num_rows];
@@ -19,13 +20,11 @@ Array2D::Array2D(int num_rows, int num_cols)
 			this->arrays_[row][col] = 0.0f;
 		}
 	}
-
-	this->num_rows_ = num_rows;
-	this->num_cols_ = num_cols;
 }
 
 // 복사 생성자 (b를 복사)
 Array2D::Array2D(const Array2D& b)
+	: num_rows_(b.num_rows_), num_cols_(b.num_cols_)
 {
 	//TODO:
 	
@@ -40,9 +39,6 @@ Array2D::Array2D(const Array2D& b)
 			this->arrays_[row][col] = b.arrays_[row][col];
 		}
 	}
-
-	this->num_rows_ = b.num_rows_;
-	this->num_cols_ = b.num_cols_;
 }
 
 Array2D::~Array2D()
