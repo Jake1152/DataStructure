@@ -66,48 +66,51 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial& poly)
 	SparsePolynomial temp;
 
 	// TODO:
-	size_t max_iter = std::min(this->num_terms_, poly.num_terms_);
-	for (size_t iter = 0; iter < max_iter; iter++)
+	// size_t max_iter = std::min(this->num_terms_, poly.num_terms_);
+	size_t poly_one_iter = 0;
+	size_t poly_two_iter = 0;
+	while (poly_one_iter < this->num_terms_ && poly_two_iter < poly.num_terms_)
 	{
-		if (this->terms_[iter].exp == poly.terms_[iter].exp)
-		{
-			float coef;
+		float coef;
 
-			coef = this->terms_[iter].coef + poly.terms_[iter].coef;
-			temp.NewTerm(coef, this->terms_[iter].exp);
-		}
-		else
+		if (this->terms_[poly_one_iter].exp == poly.terms_[poly_two_iter].exp)
 		{
-			temp.NewTerm(this->terms_[iter].coef, this->terms_[iter].exp);
-			temp.NewTerm(poly.terms_[iter].coef, poly.terms_[iter].exp);
+			coef = this->terms_[poly_one_iter].coef + poly.terms_[poly_two_iter].coef;
+			temp.NewTerm(coef, this->terms_[poly_one_iter].exp);
+			poly_one_iter++;
+			poly_two_iter++;
+		}
+		else if (poly.terms_[poly_two_iter].exp < this->terms_[poly_one_iter].exp )
+		{
+			coef = poly.terms_[poly_two_iter].coef;
+			temp.NewTerm(coef, poly.terms_[poly_two_iter].exp);
+			poly_two_iter++;
+		}
+		else // (this->terms_[poly_one_iter].exp < this->terms_[poly_two_iter].exp)
+		{
+			coef = this->terms_[poly_one_iter].coef;
+			temp.NewTerm(coef, this->terms_[poly_one_iter].exp);
+			poly_one_iter++;
 		}
 	}
 
-	const SparsePolynomial *temp_ptr;
+	while (poly_one_iter < this->num_terms_)
+	{
+		float coef;
 
-	temp_ptr = this;
-	if (poly.num_terms_ > this->num_terms_)
-		temp_ptr = &poly;
-	for (size_t iter = max_iter; iter < std::max(this->num_terms_, poly.num_terms_); iter++)
-		temp.NewTerm(temp_ptr->terms_[iter].coef, temp_ptr->terms_[iter].exp);
-	// for (size_t iter = 0; iter < this->num_terms_; iter++)
-	// {
-	// 	for (size_t arg_poly_iter = 0; arg_poly_iter < poly.num_terms_; arg_poly_iter++)
-	// 	{
-	// 		if (this->terms_[iter].exp == poly.terms_[arg_poly_iter].exp)
-	// 		{
-	// 			// temp.terms_
-	// 			float coef;
+		coef = this->terms_[poly_one_iter].coef;
+		temp.NewTerm(coef, this->terms_[poly_one_iter].exp);
+		poly_one_iter++;
+	}
 
-	// 			coef = this->terms_[iter].coef == poly.terms_[arg_poly_iter].coef;
-	// 			temp.NewTerm(coef, this->terms_[iter].exp);
-	// 		}
-	// 		else if (term.)
-	// 		{
-	// 			temp.NewTerm(this->terms_[iter].coef, this->terms_[iter].exp);
-	// 		}
-	// 	}
-	// }
+	while (poly_two_iter < poly.num_terms_)
+	{
+		float coef;
+
+		coef = poly.terms_[poly_two_iter].coef;
+		temp.NewTerm(coef, poly.terms_[poly_two_iter].exp);
+		poly_two_iter++;
+	}
 
 	return temp;
 }
