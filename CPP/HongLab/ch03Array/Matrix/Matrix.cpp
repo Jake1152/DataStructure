@@ -13,14 +13,17 @@ Matrix::Matrix(int num_rows, int num_cols)
 	this->num_rows_ = num_rows;
 	this->num_cols_ = num_cols;
 	this->values_ = new float[num_cols * num_rows];
-	std::memset(this->values_, 0, sizeof(float) * num_cols * num_rows);
+	// std::memset(this->values_, 0, sizeof(float) * num_cols * num_rows);
+	for (size_t idx = 0; idx < num_rows * num_cols; idx++)
+		this->values_[idx] = 0.0f;
+
 }
 
 // 복사 생성자 (b를 복사)
 Matrix::Matrix(const Matrix& b)
 {
 	// TODO:
-	if (this->values_) delete [] this->values_;
+	// if (this->values_) delete [] this->values_;
 	this->num_rows_ = b.num_rows_;
 	this->num_cols_ = b.num_cols_;
 	this->values_ = new float[this->num_rows_ * this->num_cols_];
@@ -76,12 +79,13 @@ Matrix Matrix::Add(const Matrix& b)
 	Matrix temp(num_rows_, num_cols_);
 
 	// TODO:
-	for (size_t i = 0; i < this->num_rows_; i++) 
+	for (size_t row = 0; row < this->num_rows_; row++) 
 	{
-		for (size_t j = 0; j < this->num_cols_; j++) 
+		for (size_t col = 0; col < this->num_cols_; col++) 
 		{
-			size_t cur_idx  = this->num_cols_ * i + j;
+			size_t cur_idx  = this->num_cols_ * row + col;
 			temp.values_[cur_idx] = this->values_[cur_idx] + b.values_[cur_idx];
+			// SetValue(), GetValue()를 쓰는 방식으로 처리도 가능
 		}
 	}
 
