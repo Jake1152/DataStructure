@@ -25,6 +25,7 @@ int main()
 	p2.NewTerm(1, 1);
 	p2.NewTerm(3, 2);
 
+	cout << "\n#P2 polynomial" << endl;
 	p2.Print(); // 1*x^1 + 3*x^2
 
 	cout << endl;
