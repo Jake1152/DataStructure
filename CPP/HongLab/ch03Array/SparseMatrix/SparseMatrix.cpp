@@ -97,6 +97,16 @@ SparseMatrix SparseMatrix::Transpose()
 	SparseMatrix temp(num_cols_, num_rows_, capacity_); // num_cols_, num_rows_ 순서 주의
 
 	// TODO:
+	for (size_t iter = 0; iter < this->num_terms_; iter++)
+	{
+		// this->num_terms_
+		temp.terms_[iter].row = this->terms_[iter].col;
+		temp.terms_[iter].col = this->terms_[iter].row;
+		temp.terms_[iter].value = this->terms_[iter].value;
+		temp.num_terms_++;
+		// temp
+		// this->terms_[iter]
+	}
 
 	return temp;
 }
