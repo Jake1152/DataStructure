@@ -1,7 +1,7 @@
 NAME = SparseMatrix
 
 CXX = g++
-CXXFLAGS = #-Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = main.cpp \

@@ -10,7 +10,6 @@ using namespace std;
 SparseMatrix::SparseMatrix(int num_rows, int num_cols, int capacity)
 	: num_rows_(num_rows), num_cols_(num_cols), capacity_(capacity), num_terms_(0)
 {
-	// TODO:
 	this->terms_ = new MatrixTerm[this->capacity_];
 }
 
@@ -18,16 +17,15 @@ SparseMatrix::SparseMatrix(int num_rows, int num_cols, int capacity)
 SparseMatrix::SparseMatrix(const SparseMatrix& b)
 	: num_rows_(b.num_rows_), num_cols_(b.num_cols_), capacity_(b.capacity_), num_terms_(b.capacity_)
 {
-	// TODO:
 	this->terms_ = new MatrixTerm[this->capacity_];
 
-	for (size_t idx = 0; idx < this->capacity_; idx++)
-	{
-		this->terms_[idx].row = b.terms_[idx].row;
-		this->terms_[idx].col = b.terms_[idx].col;
-		this->terms_[idx].value = b.terms_[idx].value;
-	}
-	// std::memcpy(this->terms_, b.terms_, sizeof(MatrixTerm) * this->capacity_);
+	std::memcpy(this->terms_, b.terms_, sizeof(MatrixTerm) * this->capacity_);
+	// for (size_t idx = 0; idx < this->capacity_; idx++)
+	// {
+	// 	this->terms_[idx].row = b.terms_[idx].row;
+	// 	this->terms_[idx].col = b.terms_[idx].col;
+	// 	this->terms_[idx].value = b.terms_[idx].value;
+	// }
 }
 
 /**
@@ -35,7 +33,6 @@ SparseMatrix::SparseMatrix(const SparseMatrix& b)
 */
 SparseMatrix::~SparseMatrix()
 {
-	// TODO:
 	if (this->terms_) delete [] this->terms_;
 	this->terms_ = nullptr;
 }
@@ -51,7 +48,7 @@ void SparseMatrix::SetValue(int row, int col, float value)
 
 	// TODO:
 	// 이미 같은 자리에 값이 있는지 확인
-	for (size_t iter = 0; iter < this->num_terms_; iter++)
+	for (int iter = 0; iter < this->num_terms_; iter++)
 	{
 		if (this->terms_[iter].row == row && this->terms_[iter].col == col)
 		{
@@ -60,6 +57,7 @@ void SparseMatrix::SetValue(int row, int col, float value)
 		}
 	}
 
+	// TODO: capacity를 늘리고 기존 값들을 복사할 때 새로 추가할 값이 정렬된 순서 있을 수 있도록 추가되도록 코드 최적화 처리 고려 필요
 	// 새로 들어온 값
 	if (this->num_terms_ >= this->capacity_)
 	{
@@ -69,22 +67,32 @@ void SparseMatrix::SetValue(int row, int col, float value)
 		std::memcpy(terms, this->terms_, sizeof(MatrixTerm) * this->capacity_);
 		delete [] this->terms_;
 		std::memcpy(this->terms_, terms, sizeof(MatrixTerm) * this->capacity_);
+		delete [] terms;
+		terms = nullptr;
 		this->capacity_ *= 2;
 
 	}
 
 	// TODO: 좌표를 기준으로 정렬되어 있을 수 있도록 처리 필요
-	this->terms_[this->num_terms_].row = row;
-	this->terms_[this->num_terms_].col = col;
-	this->terms_[this->num_terms_].value = value;
+	// insertion sort방식을 이용
+	int be_inserted_term_order = this->num_cols_ * row + col;
+	int iter;
+
+	for (iter = this->num_terms_;
+		iter > 0 && ((this->num_cols_ * this->terms_[iter - 1].row) + this->terms_[iter - 1].col) > be_inserted_term_order; 
+		iter--)
+	{
+		std::memcpy(&(this->terms_[iter]), &(this->terms_[iter - 1]), sizeof(MatrixTerm));
+	}
+	this->terms_[iter].row = row;
+	this->terms_[iter].col = col;
+	this->terms_[iter].value = value;
 	this->num_terms_++;
 }
 
 float SparseMatrix::GetValue(int row, int col) const // 맨 뒤의 const는 함수 안에서 멤버 변수의 값을 바꾸지 않겠다는 의미
 {
-	// TODO: key = col + num_cols * row;
-
-	for (size_t iter = 0; iter < this->num_terms_; iter++)
+	for (int iter = 0; iter < this->num_terms_; iter++)
 	{
 		if(this->terms_[iter].row == row && this->terms_[iter].col == col)
 			return this->terms_[iter].value;
@@ -97,12 +105,9 @@ SparseMatrix SparseMatrix::Transpose()
 	SparseMatrix temp(num_cols_, num_rows_, capacity_); // num_cols_, num_rows_ 순서 주의
 
 	// TODO:
-	for (size_t iter = 0; iter < this->num_terms_; iter++)
+	for (int iter = 0; iter < this->num_terms_; iter++)
 	{
-		// this->num_terms_
 		temp.SetValue(this->terms_[iter].col, this->terms_[iter].row, this->terms_[iter].value);
-		// temp
-		// this->terms_[iter]
 	}
 
 	return temp;
