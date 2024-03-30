@@ -19,7 +19,7 @@ SparseMatrix::SparseMatrix(const SparseMatrix& b)
 {
 	this->terms_ = new MatrixTerm[this->capacity_];
 
-	std::memcpy(this->terms_, b.terms_, sizeof(MatrixTerm) * this->capacity_);
+	std::memcpy(this->terms_, b.terms_, sizeof(MatrixTerm) * b.num_terms_);
 	// for (size_t idx = 0; idx < this->capacity_; idx++)
 	// {
 	// 	this->terms_[idx].row = b.terms_[idx].row;
@@ -46,8 +46,6 @@ void SparseMatrix::SetValue(int row, int col, float value)
 {
 	if (value == 0.0f) return; // value가 0이 아닌 term만 저장
 
-	// TODO:
-	// 이미 같은 자리에 값이 있는지 확인
 	for (int iter = 0; iter < this->num_terms_; iter++)
 	{
 		if (this->terms_[iter].row == row && this->terms_[iter].col == col)
@@ -105,9 +103,25 @@ SparseMatrix SparseMatrix::Transpose()
 	SparseMatrix temp(num_cols_, num_rows_, capacity_); // num_cols_, num_rows_ 순서 주의
 
 	// TODO:
-	for (int iter = 0; iter < this->num_terms_; iter++)
+	// for (int iter = 0; iter < this->num_terms_; iter++)
+	// {
+	// 	temp.SetValue(this->terms_[iter].col, this->terms_[iter].row, this->terms_[iter].value);
+	// }
+
+	// Hong Lab way
+	// 이렇게하면 전치시키려는 희소행렬이 정렬안된 경우에도 전치 이후에 정렬된다
+	for (int row = 0; row < temp.num_rows_; row++)
 	{
-		temp.SetValue(this->terms_[iter].col, this->terms_[iter].row, this->terms_[iter].value);
+		for (int iter = 0; iter < this->num_terms_; iter++)
+		{
+			if (this->terms_[iter].col == row)
+			{
+				temp.terms_[temp.num_terms_].value = this->terms_[iter].value;
+				temp.terms_[temp.num_terms_].row = this->terms_[iter].row;
+				temp.terms_[temp.num_terms_].col = this->terms_[iter].col;
+				temp.num_terms_++;
+			}
+		}
 	}
 
 	return temp;
