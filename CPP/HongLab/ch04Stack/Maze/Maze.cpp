@@ -44,6 +44,18 @@ struct Pos
 	}
 };
 
+bool CheckValidScope(Pos current_pos)
+{
+	return ((current_pos.row >= 0 && current_pos.row < kNumRows) || \
+					current_pos.col >= 0 && current_pos.col < kNumCols);
+}
+
+bool CheckAdvanceCondition(Pos current_pos)
+{
+	return (maze[current_pos.row][current_pos.col] == '0' || \
+					maze[current_pos.row][current_pos.col] == 'G');
+}
+
 void RecurMaze(Pos p)
 {
 	const char mark = maze[p.row][p.col];
@@ -53,15 +65,23 @@ void RecurMaze(Pos p)
 		cout << "Found!" << endl;
 		return;
 	}
-
 	// 방문했던 적이 없고 ('X'가 아니고)
+	// cout << p << endl;
 	// 벽도 아닌 경우 ('1'도 아닌 경우)
 	// if (...)
-	//{
-		// 'X' 표시
+	// {
+	// 	'X' 표시
 
-		// 옆으로 이동
-	//}
+	// 	옆으로 이동
+	// }
+	maze[p.row][p.col] = 'v';
+	Pos directions[] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+	for (const Pos& direction: directions)
+	{
+		Pos next_bound = { p.row + direction.row, p.col + direction.col };
+		if (CheckValidScope(next_bound) && CheckAdvanceCondition(next_bound))
+			RecurMaze(next_bound);
+	}
 }
 
 //조기 종료가 가능한 버전
@@ -69,6 +89,7 @@ void RecurMaze(Pos p)
 //{
 //	// TODO:
 //}
+
 
 void StackMaze()
 {
@@ -94,46 +115,21 @@ void StackMaze()
 
 		if (mark == 'G')
 		{
-			cout << "Found!" << endl;
+			cout << "\nFound!" << endl;
 			break;
 		}
+		maze[p.row][p.col] = 'v'; 
 
 		// TODO: 상하좌우 확인하여 갈 수 있는 곳이면 stack에 추가한다.
 		// counterclockwise
 		// 0 -> North, 1 -> West, 2 -> South, 3 -> East
-		Pos next_bound;
-		// North
-		if (p.row - 1 >= 0 && maze[p.row - 1][p.col] == 1)
+		Pos directions[] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+		for (const Pos& direction: directions)
 		{
-			next_bound = { p.row - 1, p.col };
+			Pos next_bound = { p.row + direction.row, p.col + direction.col };
+			if (CheckValidScope(next_bound) && CheckAdvanceCondition(next_bound))
+				s.Push(next_bound);
 		}
-		// West
-		else if (p.col - 1 >= 0 && maze[p.row][p.col - 1] == 1)
-		{
-			next_bound = { p.row, p.col - 1};
-		}
-		// South
-		else if (p.row + 1 <= kNumRows && maze[p.row + 1][p.col] != 0)
-		{
-			next_bound = { p.row + 1, p.col };
-		}
-		// East
-		else if (p.col + 1 <= kNumCols && maze[p.row][p.col + 1] != 0)
-		{
-			next_bound = { p.row, p.col + 1};
-		} 
-		else 
-		{
-			std::cout << "## Weird things : " << std::endl;
-		}
-		s.Push(next_bound);
-
-		// for (int direction = 0; direction < 4; direction++)
-		// {
-		// 	//  North
-		// 	direction 
-			
-		// }
 	}
 }
 
@@ -141,9 +137,10 @@ int main()
 {
 	PrintMaze();
 
-	//RecurMaze({ 1, 1 });
+	RecurMaze({ 1, 1 });
 
-	StackMaze();
+	std::cout << std::endl;
+	// StackMaze();
 
 	PrintMaze();
 
