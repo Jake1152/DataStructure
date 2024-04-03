@@ -35,12 +35,12 @@ public:
 			Base::Resize();
 
 		// TODO:
-        this->front_ = (this->front_) % this->capacity_;
-        this->queue_[this->front_] = item;
-		if (this->front_ == 0)
-			this->front_ = this->capacity_ - 1;
-		else
-			this->front_ -= 1;
+		this->queue_[this->front_] = item;
+		this->front_ = (this->front_ - 1 + this->capacity_) % this->capacity_;
+		// if (this->front_ == 0)
+		// 	this->front_ = this->capacity_ - 1;
+		// else
+		// 	this->front_ -= 1;
 	}
 
 	void PushBack(const T& item)
@@ -58,9 +58,11 @@ public:
 		assert(!Base::IsEmpty());
 
 		// TODO!!: (this->rear_ - 1) 
-		this->rear_ = (this->rear_ - 1) % this->capacity_;
+		// this->rear_ = (this->rear_ - 1) % this->capacity_;
+		// Hong
+		this->rear_ = (Base::rear_ - 1 + Base::capacity_) % Base::capacity_;
 		// this->front_ = (this->front_) % this->capacity_;
-        // this->queue_[this->front_] = item;
+		// this->queue_[this->front_] = item;
 		// if (this->front_ == 0)
 		// 	this->front_ = this->capacity_ - 1;
 		// else
