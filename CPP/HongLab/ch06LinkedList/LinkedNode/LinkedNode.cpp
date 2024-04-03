@@ -17,11 +17,25 @@ struct Node
 void RecurPrint(Node* node)
 {
 	// TODO:
+	if (node)
+	{
+		std::cout << node->item << std::endl;
+		RecurPrint(node->next);
+	}
+	
 }
 
 void IterPrint(Node* node)
 {
 	// TODO:
+	std::cout << "# IterPrint" << std::endl;
+	Node *cur = node;
+
+	while (cur)
+	{
+		std::cout << cur->item << std::endl;
+		cur = cur->next;
+	}
 }
 
 int main()
@@ -62,36 +76,47 @@ int main()
 	cout << *fifth << endl;
 	cout << endl;
 
+	Node *cur;
+	// cur = first;
 	// 연결 관계 만들어 주기
-	// first->next = second;
+	first->next = second;
 	// TODO:
+	first->next = second;
+	second->next = third;
+	third->next = fourth;
+	fourth->next = fifth;
 	// 마지막
 
-	//cout << *(first) << endl;
-	//cout << *(first->next) << endl;
-	//cout << *(first->next->next) << endl;
-	//cout << *(first->next->next->next) << endl;
-	//cout << *(first->next->next->next->next) << endl;
-	//// cout << *(first->next->next->next->next->next) << endl; // 오류
+	cout << *(first) << endl;
+	cout << *(first->next) << endl;
+	cout << *(first->next->next) << endl;
+	cout << *(first->next->next->next) << endl;
+	cout << *(first->next->next->next->next) << endl;
+	// cout << *(first->next->next->next->next->next) << endl; // 오류
 
 	cout << endl;
 
 	// 임시 변수 사용
-	//{
-	//	Node* current = first;
-	//	cout << *current << endl;
+	{
+		Node* current = first;
 
+		cout << "# 임시 변수 사용" << endl;
 	// TODO:
-	//	cout << endl;
-	//}
+		while (current)
+		{
+			cout << *current << endl;
+			current = current->next;
+		}
+		cout << endl;
+	}
 
 	// 재귀 호출 이용
-	//RecurPrint(first);
-	//cout << endl;
+	RecurPrint(first);
+	cout << endl;
 
 	// 반복문 이용
-	//IterPrint(first);
-	//cout << endl;
+	IterPrint(first);
+	cout << endl;
 
 	// TODO: 데이터 삭제
 
