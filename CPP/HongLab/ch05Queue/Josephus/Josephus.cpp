@@ -30,7 +30,7 @@ int main()
 			q.Enqueue(num);
 		}
 
-		// q.Print();
+		q.Print();
 
 		// k 번째 사람 처형
 		cout << "Executed " << q.Front() << endl;
