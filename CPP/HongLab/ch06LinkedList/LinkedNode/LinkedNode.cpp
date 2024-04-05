@@ -9,7 +9,8 @@ struct Node
 
 	friend ostream& operator<<(ostream& os, const Node& n)
 	{
-		cout << n.item << " " << flush;
+		// cout << n.item << " " << flush;
+		cout << "[" << &n << ", " << n.item << ", " << n.next << "]" << flush;
 		return os;
 	}
 };
@@ -19,8 +20,10 @@ void RecurPrint(Node* node)
 	// TODO:
 	if (node)
 	{
-		std::cout << node->item << std::endl;
+		// std::cout << node->item << std::endl;
 		RecurPrint(node->next);
+		// std::cout << node->item << std::endl;
+		std::cout << *node << std::endl;
 	}
 	
 }
@@ -33,7 +36,8 @@ void IterPrint(Node* node)
 
 	while (cur)
 	{
-		std::cout << cur->item << std::endl;
+		// std::cout << cur->item << std::endl;
+		std::cout << *cur << std::endl;
 		cur = cur->next;
 	}
 }
@@ -109,6 +113,7 @@ int main()
 	}
 
 	// 재귀 호출 이용
+	std::cout << "# RecurPrint" << std::endl;
 	RecurPrint(first);
 	cout << endl;
 
@@ -118,13 +123,14 @@ int main()
 
 	// TODO: 데이터 삭제
 	Node *cur = first;
-	Node *next;
 
 	while (cur)
 	{
-		next = cur->next;
-		delete cur;
-		cur = next;
+		Node *temp = cur;
+
+		std::cout << "Delete " << *temp << std::endl;
+		cur = cur->next;
+		delete temp;
 	}
 
 	return 0;
