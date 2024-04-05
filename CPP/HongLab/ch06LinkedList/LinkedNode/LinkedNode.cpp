@@ -76,8 +76,6 @@ int main()
 	cout << *fifth << endl;
 	cout << endl;
 
-	Node *cur;
-	// cur = first;
 	// 연결 관계 만들어 주기
 	first->next = second;
 	// TODO:
@@ -119,6 +117,15 @@ int main()
 	cout << endl;
 
 	// TODO: 데이터 삭제
+	Node *cur = first;
+	Node *next;
+
+	while (cur)
+	{
+		next = cur->next;
+		delete cur;
+		cur = next;
+	}
 
 	return 0;
 }
