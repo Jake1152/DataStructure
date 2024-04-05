@@ -18,6 +18,8 @@ int main()
 
 	list.Print();
 
+	// list.~SinglyLinkedList();
+
 	// copy constructor
 	{
 		SinglyLinkedList<int> list2 = list; // copy constructor
@@ -40,8 +42,11 @@ int main()
 	// PopFront()/Back() 테스트
 	for (int i = 0; i < 5; i++)
 	{
-		//list.PopFront();
-		//list.Print();
+		list.PopFront();
+		list.Print();
+
+		list.PopFront();
+		list.Print();
 
 		list.PopBack();
 		list.Print();
