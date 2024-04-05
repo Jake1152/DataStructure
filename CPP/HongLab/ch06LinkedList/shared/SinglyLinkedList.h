@@ -20,6 +20,19 @@ public:
 	SinglyLinkedList(const SinglyLinkedList& list)
 	{
 		// TODO: 연결 리스트 복사
+		if (this != &list)
+		{
+			Node *cur_list_node;
+			cur_list_node = list.first_;
+			while (cur_list_node)
+			{
+				Node *temp = new Node;
+
+				temp->item = cur_list_node->item;
+				temp->next = cur_list_node->next;
+				cur_list_node = cur_list_node->next;
+			}
+		}
 	}
 
 	~SinglyLinkedList()
@@ -30,6 +43,16 @@ public:
 	void Clear() // 모두 지워야(delete) 합니다.
 	{
 		// TODO: 모두 삭제
+		Node *cur_node = this->first_;
+		while (cur_node)
+		{
+			Node *be_deleted;
+
+			be_deleted = cur_node;
+			cur_node = cur_node->next;
+			delete be_deleted;
+		}
+		this->first_ = nullptr;
 	}
 
 	bool IsEmpty()
@@ -39,10 +62,15 @@ public:
 
 	int Size()
 	{
+		Node *cur_node = this->first_;
 		int size = 0;
 
 		// TODO: size를 하나하나 세어서 반환
-
+		while (cur_node)
+		{
+			size++;
+			cur_node = cur_node->next;
+		}
 		return size;
 	}
 
@@ -50,34 +78,85 @@ public:
 	{
 		assert(first_);
 
-		return T(); // TODO: 수정
+		return this->first_->item; // TODO: 수정
 	}
 
 	T Back()
 	{
 		assert(first_);
 
-		return T(); // TODO: 수정
+		Node *cur_node = this->first_;
+
+		while (cur_node->next)
+		{
+			cur_node = cur_node->next;
+		}
+		return cur_node->item; // TODO: 수정
 	}
 
 	Node* Find(T item)
 	{
 		// TODO: item이 동일한 노드 포인터 반환
+		Node *cur_node = this->first_;
 
+		while (cur_node)
+		{
+			if (cur_node->item == item)
+				return cur_node;
+			cur_node = cur_node->next;
+		}
 		return nullptr;
 	}
 
 	void InsertBack(Node* node, T item)
 	{
 		// TODO:
+		Node *new_node = new Node;
+		new_node->item = item;
+		new_node->next = nullptr;
+
+		if (node->first_ == nullptr)
+		{
+			node->first_ = new_node;
+			return ;
+		}
+		Node *cur_node = node->first_;
+
+		while (cur_node->next)
+		{
+			cur_node = cur_node->next;
+		}
+		cur_node->next = new_node;
 	}
 
-	void Remove(Node* n)
+	void Remove(Node* target_node)
 	{
 		assert(first_);
 
 		// 하나 앞의 노드를 찾아야 합니다.
 		// TODO:
+		if (this->first_ == target_node)
+		{
+			this->first_ = this->first->next;
+			delete target_node;
+			target_node = nullptr
+			return ;
+		}
+
+		Node *prev_node = node->first_;
+		Node *cur_node = node->first_;
+
+		while (cur_node->next)
+		{
+			if (cur_node == target_node )
+			{
+				prev_node->next = cur_node->next;
+				delete target_node;
+				target_node = nullptr
+			}
+			prev_node = cur_node;
+			cur_node = cur_node->next;
+		}
 	}
 
 	void PushFront(T item)
@@ -86,21 +165,28 @@ public:
 
 		// 새로운 노드 만들기
 		// TODO:
+		Node *new_node = new Node;
+		new_node->item = item;
+		new_node->next = nullptr;
 
 		// 연결 관계 정리
 		// TODO:
+		if (this->first_)
+			new_node->next = this->first_->next;
+		this->first_ = new_node;
 	}
 
 	void PushBack(T item)
 	{
-		if (first_)
-		{
-			// TODO:
-		}
-		else
-		{
-			// TODO:
-		}
+		// if (first_)
+		// {
+		// 	// TODO:
+		// }
+		// else
+		// {
+		// 	// TODO:
+		// }
+		this->InsertBack(this->first_, item);
 	}
 
 	void PopFront()
@@ -115,6 +201,7 @@ public:
 		assert(first_);
 
 		// TODO: 메모리 삭제
+		
 	}
 
 	void PopBack()
