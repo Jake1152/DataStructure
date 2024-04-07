@@ -38,16 +38,12 @@ int main()
 		list.PopFront();
 		list.Print();
 
-		list.PopFront();
-		list.Print();
-
 		list.PopBack();
 		list.Print();
 
 		if (!list.IsEmpty())
 			cout << list.Front() << " " << list.Back() << endl;
 	}
-
 	// Edge case 테스트 주의
 
 	return 0;
