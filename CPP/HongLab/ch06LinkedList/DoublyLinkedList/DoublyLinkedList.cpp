@@ -32,6 +32,9 @@ int main()
 	list.InsertBack(temp, 1000);
 	list.Print();
 
+	list.Reverse();
+	list.Print();
+
 	// PopFront()/Back() 테스트
 	for (int i = 0; i < 5; i++)
 	{
@@ -45,6 +48,7 @@ int main()
 			cout << list.Front() << " " << list.Back() << endl;
 	}
 	// Edge case 테스트 주의
+	list.Reverse();
 
 	return 0;
 }
