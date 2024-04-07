@@ -22,15 +22,28 @@ public:
 		// TODO: 연결 리스트 복사
 		if (this != &list)
 		{
-			Node *cur_list_node;
-			cur_list_node = list.first_;
-			while (cur_list_node)
-			{
-				Node *temp = new Node;
+			if (list.first_ == nullptr)
+				return ;
 
-				temp->item = cur_list_node->item;
-				temp->next = cur_list_node->next;
-				cur_list_node = cur_list_node->next;
+			Node *first_node = new Node;
+
+			first_node->item = list.first_->item;
+			first_node->next = nullptr;
+
+			this->first_ = first_node;
+
+			Node *cur_node = this->first_;
+			Node *origin_list_cur_node = list.first_->next;
+
+			while (origin_list_cur_node)
+			{
+				Node *copied_node = new Node;
+
+				copied_node->item = origin_list_cur_node->item;
+				copied_node->next = origin_list_cur_node->next;
+				cur_node->next = copied_node;
+				cur_node = cur_node->next;
+				origin_list_cur_node = origin_list_cur_node->next;
 			}
 		}
 	}
@@ -46,11 +59,11 @@ public:
 		Node *cur_node = this->first_;
 		while (cur_node)
 		{
-			Node *be_deleted;
+			Node *be_removed_node;
 
-			be_deleted = cur_node;
+			be_removed_node = cur_node;
 			cur_node = cur_node->next;
-			delete be_deleted;
+			delete be_removed_node;
 		}
 		this->first_ = nullptr;
 	}
@@ -115,18 +128,24 @@ public:
 		new_node->item = item;
 		new_node->next = nullptr;
 
-		if (node->first_ == nullptr)
+		if (node == nullptr)
 		{
-			node->first_ = new_node;
+			this->first_ = new_node;
 			return ;
 		}
-		Node *cur_node = node->first_;
 
+		Node *cur_node = this->first_;
 		while (cur_node->next)
 		{
+			if (node == cur_node)
+			{
+				new_node->next = cur_node->next;
+				cur_node->next = new_node;
+				break ;
+			}
 			cur_node = cur_node->next;
 		}
-		cur_node->next = new_node;
+		
 	}
 
 	void Remove(Node* target_node)
@@ -137,14 +156,14 @@ public:
 		// TODO:
 		if (this->first_ == target_node)
 		{
-			this->first_ = this->first->next;
+			this->first_ = this->first_->next;
 			delete target_node;
-			target_node = nullptr
+			target_node = nullptr;
 			return ;
 		}
 
-		Node *prev_node = node->first_;
-		Node *cur_node = node->first_;
+		Node *prev_node = this->first_;
+		Node *cur_node = this->first_;
 
 		while (cur_node->next)
 		{
@@ -152,7 +171,8 @@ public:
 			{
 				prev_node->next = cur_node->next;
 				delete target_node;
-				target_node = nullptr
+				target_node = nullptr;
+				break ;
 			}
 			prev_node = cur_node;
 			cur_node = cur_node->next;
@@ -172,21 +192,33 @@ public:
 		// 연결 관계 정리
 		// TODO:
 		if (this->first_)
-			new_node->next = this->first_->next;
+		{
+			new_node->next = this->first_;
+		}
 		this->first_ = new_node;
 	}
 
 	void PushBack(T item)
 	{
-		// if (first_)
-		// {
-		// 	// TODO:
-		// }
-		// else
-		// {
-		// 	// TODO:
-		// }
-		this->InsertBack(this->first_, item);
+		Node *new_node = new Node;
+		new_node->item = item;
+		new_node->next = nullptr;
+		if (this->first_)
+		{
+			// TODO:
+			Node *cur_node = this->first_;
+			while (cur_node->next)
+			{
+				cur_node = cur_node->next;
+			}
+			cur_node->next = new_node;
+		}
+		else
+		{
+			// TODO:
+			this->first_ = new_node;
+		}
+		// this->InsertBack(this->first_, item);
 	}
 
 	void PopFront()
@@ -201,7 +233,17 @@ public:
 		assert(first_);
 
 		// TODO: 메모리 삭제
-		
+		Node *temp;
+
+		temp = this->first_;
+		if (this->first_)
+		{
+			this->first_ = this->first_->next;
+			delete temp;
+			temp = nullptr;
+		}
+		else
+			this->first_;
 	}
 
 	void PopBack()
@@ -218,11 +260,61 @@ public:
 		assert(first_);
 
 		// TODO: 메모리 삭제
+		// 남아있는 node가 2개 이상 일 때
+		if (this->first_->next)
+		{
+			Node *prev_node = this->first_;
+			Node *cur_node = this->first_;
+
+			while(cur_node->next)
+			{
+				prev_node = cur_node;
+				cur_node = cur_node->next;
+			}
+			prev_node->next = nullptr;
+			delete cur_node;
+		}
+		else // 남아있는 node가 1개 일 때
+		{
+			delete this->first_;
+			this->first_ = nullptr;
+		}
+
 	}
 
 	void Reverse()
 	{
-		// TODO: 
+		if (this->first_)
+		{
+			// TODO: 
+			// # mine
+			// Node *cur_node = this->first_;
+			// Node *prev_node = this->first_;
+			// Node *next_node = this->first_->next; 
+			// prev_node->next = nullptr;
+			// while (next_node)
+			// {
+			// 	next_node = cur_node->next;
+			// 	cur_node = next_node;
+			// 	cur_node->next = prev_node;
+			// 	prev_node = cur_node;
+			// }
+			// this->first_ = cur_node;
+
+			// # Honglab way
+			Node *temp = nullptr;
+			Node *prev = nullptr;
+			Node *current = this->first_;
+
+			while (current)
+			{
+				prev = current;
+				current = current->next;
+				prev->next = temp;
+				temp = prev;
+			}
+			this->first_ = prev;
+		}
 	}
 
 	void SetPrintDebug(bool flag)
@@ -240,7 +332,7 @@ public:
 			cout << "Empty" << endl;
 		else
 		{
-			cout << "Size = " << Size() << " ";
+			cout << "Size = " << Size() << " " << endl;
 
 			while (current)
 			{

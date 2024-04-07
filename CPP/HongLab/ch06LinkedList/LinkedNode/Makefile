@@ -1,6 +1,6 @@
 NAME = LinkedNode
 CXX = g++
-CXXFLAGS = #-Wall -Wextra -Werror
+CXXFLAGS = -g#-Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = LinkedNode.cpp
