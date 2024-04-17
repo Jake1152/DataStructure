@@ -41,38 +41,38 @@ int main()
 	tree.Print2D();
 
 	cout << "Sum: " << tree.Sum() << endl;//Sum: 21
-	cout << "Height: " << tree.Height() << endl;//Height : 4
+	// cout << "Height: " << tree.Height() << endl;//Height : 4
 
 
-	// Tree traversal methods
+	// // Tree traversal methods
 
-	cout << "Preorder" << endl; // 6 2 1 3 5 4
-	tree.Preorder();
-	cout << endl;
+	// cout << "Preorder" << endl; // 6 2 1 3 5 4
+	// tree.Preorder();
+	// cout << endl;
 
-	cout << "Inorder" << endl; // 1 3 2 6 5 4
-	tree.Inorder();
-	cout << endl;
+	// cout << "Inorder" << endl; // 1 3 2 6 5 4
+	// tree.Inorder();
+	// cout << endl;
 
-	cout << "Postorder" << endl; // 3 1 2 4 5 6
-	tree.Postorder();
-	cout << endl;
+	// cout << "Postorder" << endl; // 3 1 2 4 5 6
+	// tree.Postorder();
+	// cout << endl;
 
-	cout << "LevelOrder" << endl; // 6 2 5 1 4 3
-	tree.LevelOrder();
-	cout << endl;
+	// cout << "LevelOrder" << endl; // 6 2 5 1 4 3
+	// tree.LevelOrder();
+	// cout << endl;
 
-	cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
-	tree.IterPreorder();
-	cout << endl;
+	// cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
+	// tree.IterPreorder();
+	// cout << endl;
 
-	cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
-	tree.IterInorder();
-	cout << endl;
+	// cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
+	// tree.IterInorder();
+	// cout << endl;
 
-	cout << "Iterative Postorder" << endl; // 3 1 2 4 5 6
-	tree.IterPostorder();
-	cout << endl;
+	// cout << "Iterative Postorder" << endl; // 3 1 2 4 5 6
+	// tree.IterPostorder();
+	// cout << endl;
 
 	// 트리 소멸자에서 삭제
 	//delete n1;

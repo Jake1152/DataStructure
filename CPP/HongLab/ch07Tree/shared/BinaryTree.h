@@ -72,7 +72,12 @@ public:
 
 	int Sum(Node* node)
 	{
-		return 0; // TODO:
+		Node *cur_node;
+
+ 		// TODO:
+		if (node)
+			return Sum(node->left) + Sum(node->right) + (node->item);
+		return 0;
 	}
 
 	int Height()
@@ -80,8 +85,12 @@ public:
 		return Height(root_);
 	}
 
+	/**
+	 * root부터 가장 멀리 있는 레벨에 있는 단말노드까지의 간선의 갯수
+	*/
 	int Height(Node* node)
 	{
+		return  + 1
 		return 0; // TODO:
 	}
 
