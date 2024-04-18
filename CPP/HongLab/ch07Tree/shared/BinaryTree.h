@@ -62,7 +62,9 @@ public:
 	void Visit(Node* node)
 	{
 		using namespace std;
-		cout << node->item << " "; // 수행하고 싶은 작업 구현(여기서는 출력)
+
+		if (node)
+			cout << node->item << " " << flush; // 수행하고 싶은 작업 구현(여기서는 출력)
 	}
 
 	int Sum()
@@ -80,6 +82,9 @@ public:
 		return 0;
 	}
 
+	/**
+	 * 
+	*/
 	int Height()
 	{
 		return Height(root_);
@@ -87,16 +92,20 @@ public:
 
 	/**
 	 * root부터 가장 멀리 있는 레벨에 있는 단말노드까지의 간선의 갯수
+	 * 트리에 있는 모든 노드는 자신을 기준으로 루트가 될 수 있다
 	*/
 	int Height(Node* node)
 	{
-		return  + 1
-		return 0; // TODO:
+		// TODO:
+		if (node)
+			return std::max(this->Height(node->left), this->Height(node->right)) + 1;
+		return 0;
 	}
 
 	~BinaryTree()
 	{
-		DeleteTree(root_);
+		this->DeleteTree(root_);
+		this->root_ = nullptr;
 	}
 
 	void DeleteTree(Node* node)
@@ -104,6 +113,18 @@ public:
 		if (node)
 		{
 			// TODO: 힌트 Post-order
+			if (node->left)
+			{
+				this->DeleteTree(node->left);
+				node->left = nullptr;
+			}
+			if (node->right)
+			{
+				this->DeleteTree(node->right);
+				node->right = nullptr;
+			}
+			delete node;
+			node = nullptr;
 		}
 	}
 
@@ -111,28 +132,54 @@ public:
 	void Preorder(Node* node)
 	{
 		// TODO:
+		if (node)
+		{
+			this->Visit(node);
+			this->Preorder(node->left);
+			this->Preorder(node->right);
+		}
 	};
 
 	void Inorder() { Inorder(root_); }
 	void Inorder(Node* node)
 	{
 		// TODO:
+		if (node)
+		{
+			this->Inorder(node->left);
+			this->Visit(node);
+			this->Inorder(node->right);
+		}
 	}
 
 	void Postorder() { Postorder(root_); }
 	void Postorder(Node* node)
 	{
 		// TODO:
+		if (node)
+		{
+			this->Postorder(node->left);
+			this->Postorder(node->right);
+			this->Visit(node);
+		}
 	}
 
 	void LevelOrder()
 	{
-		Queue<Node*> q; // 힌트: MyQueue q;
-		Node* current = root_;
-		while (current)
+		Queue<Node*> queue; // 힌트: MyQueue q;
+		Node* current = nullptr;
+
+		queue.Enqueue(this->root_);
+		while (!queue.IsEmpty())
 		{
+			current = queue.Front();
+			queue.Dequeue();
 			Visit(current);
 			// TODO:
+			if (current->left)
+				queue.Enqueue(current->left);
+			if (current->right)
+				queue.Enqueue(current->right);
 		}
 	}
 
@@ -140,12 +187,21 @@ public:
 	{
 		if (!root_) return;
 
-		Stack<Node*> s; // 힌트: MyStack q;
-		s.Push(root_);
+		Stack<Node*> stack; // 힌트: MyStack q;
+		stack.Push(root_);
 
-		while (!s.IsEmpty())
+		while (!stack.IsEmpty())
 		{
 			// TODO:
+			Node* cur_node = stack.Top();
+
+			stack.Pop();
+			if (cur_node)
+			{
+				this->Visit(cur_node);
+				stack.Push(cur_node->right);
+				stack.Push(cur_node->left);
+			}
 		}
 	}
 
@@ -155,9 +211,13 @@ public:
 
 		Stack<Node*> s;
 
-		Node* current = root_;
-		while (current || !s.IsEmpty())
+		Node* cur_node = root_;
+		while (cur_node || !s.IsEmpty())
 		{
+			cur_node = stack.Top();
+			stack.Push(cur_node->right);
+			this->Visit(cur_node);
+			stack.Push(cur_node->left);
 			// TODO:
 		}
 	}

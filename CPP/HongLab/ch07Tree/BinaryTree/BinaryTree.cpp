@@ -41,30 +41,30 @@ int main()
 	tree.Print2D();
 
 	cout << "Sum: " << tree.Sum() << endl;//Sum: 21
-	// cout << "Height: " << tree.Height() << endl;//Height : 4
+	cout << "Height: " << tree.Height() << endl;//Height : 4
 
 
 	// // Tree traversal methods
 
-	// cout << "Preorder" << endl; // 6 2 1 3 5 4
-	// tree.Preorder();
-	// cout << endl;
+	cout << "Preorder" << endl; // 6 2 1 3 5 4
+	tree.Preorder();
+	cout << endl;
 
-	// cout << "Inorder" << endl; // 1 3 2 6 5 4
-	// tree.Inorder();
-	// cout << endl;
+	cout << "Inorder" << endl; // 1 3 2 6 5 4
+	tree.Inorder();
+	cout << endl;
 
-	// cout << "Postorder" << endl; // 3 1 2 4 5 6
-	// tree.Postorder();
-	// cout << endl;
+	cout << "Postorder" << endl; // 3 1 2 4 5 6
+	tree.Postorder();
+	cout << endl;
 
-	// cout << "LevelOrder" << endl; // 6 2 5 1 4 3
-	// tree.LevelOrder();
-	// cout << endl;
+	cout << "LevelOrder" << endl; // 6 2 5 1 4 3
+	tree.LevelOrder();
+	cout << endl;
 
-	// cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
-	// tree.IterPreorder();
-	// cout << endl;
+	cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
+	tree.IterPreorder();
+	cout << endl;
 
 	// cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
 	// tree.IterInorder();
@@ -74,13 +74,17 @@ int main()
 	// tree.IterPostorder();
 	// cout << endl;
 
+	/**
+	 * 트리소멸자에서의 삭제란 무엇인가?
+	 * n으로 시작하는 변수들을 node로 선언했는데 delete n하면 그 노드의 소멸자가 호출되는 것 아닌가?
+	*/
 	// 트리 소멸자에서 삭제
-	//delete n1;
-	//delete n2;
-	//delete n3;
-	//delete n4;
-	//delete n5;
-	//delete n6;
+	// delete n1;
+	// delete n2;
+	// delete n3;
+	// delete n4;
+	// delete n5;
+	// delete n6;
 
 	return 0;
 }

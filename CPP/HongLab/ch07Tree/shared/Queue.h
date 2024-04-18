@@ -64,6 +64,8 @@ public:
 		//	return ...;
 		//else
 		//	return 0;
+
+		// # Mine
 		if (this->rear_ >= this->front_)
 			return this->rear_ - this->front_;
 		else
