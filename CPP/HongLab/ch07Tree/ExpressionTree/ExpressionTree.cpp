@@ -54,11 +54,23 @@ public:
 	void Infix() { Infix(root_); cout << endl; }
 	void Infix(Node* node) {
 		// TODO: 수식을 Infix 형식으로 출력 (괄호 포함)
+		if (node)
+		{
+			this->Infix(node->left);
+			this->Visit(node);
+			this->Infix(node->right);
+		} 
 	}
 
 	void Postfix() { Postfix(root_);  cout << endl; }
 	void Postfix(Node* node) {
 		// TODO: 수식을 Postfix 형식으로 출력
+		if (node)
+		{
+			this->Postfix(node->left);
+			this->Postfix(node->right);
+			this->Visit(node);
+		} 
 	}
 
 	// Infix -> postfix -> expression tree
@@ -82,16 +94,33 @@ public:
 		while (!postfix.IsEmpty())
 		{
 			char c = postfix.Front();
+
+			// std::cout << "c : " << c << std::endl;
 			postfix.Dequeue();
 
+			Node *node = new Node;
+
+			node->item = c;
 			if (c >= '0' && c <= '9')
 			{
 				// TODO:
+				node->left = nullptr;
+				node->right= nullptr;
 			}
 			else
 			{
 				// TODO:
+				Node *left_node = nullptr;
+				Node *right_node = nullptr;
+
+				right_node = s.Top();
+				s.Pop();
+				node->right = right_node;
+				left_node = s.Top();
+				s.Pop();
+				node->left = left_node;
 			}
+			s.Push(node);
 		}
 
 		root_ = s.Top();
