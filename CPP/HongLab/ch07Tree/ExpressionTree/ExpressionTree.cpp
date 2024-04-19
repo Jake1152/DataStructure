@@ -106,6 +106,9 @@ public:
 				// TODO:
 				node->left = nullptr;
 				node->right= nullptr;
+				// # Hong
+				// Node* temp = new Node{ c, nullptr, nullptr };
+				// s.Push(temp); // 숫자라면 새 노드를 만들어서 스택에 넣기
 			}
 			else
 			{
@@ -119,6 +122,16 @@ public:
 				left_node = s.Top();
 				s.Pop();
 				node->left = left_node;
+				// # Hong
+				// 연산자라면 미리 스택에 들어있던 피연산자들(숫자들)의 노드 2개를 꺼낸다.
+				// Node* right = s.Top();
+				// s.Pop();
+				// Node* left = s.Top();
+				// s.Pop();
+
+				// // 피연산자 노드들 2개를 자식으로 갖는 연산자 노드를 새로 만들어서 스택에 추가한다.
+				// Node* temp = new Node{ c, left, right };
+				// s.Push(temp);
 			}
 			s.Push(node);
 		}
