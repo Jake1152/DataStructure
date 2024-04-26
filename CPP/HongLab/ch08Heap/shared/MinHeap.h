@@ -4,32 +4,22 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
-#include <limits>
+#include "BinaryTree.h"
 
+/**
+ * Binary Tree 상속받아서 처리해볼 것
+*/
 template<typename T>
-class MaxHeap
+class MinHeap : public BinaryTree<T>
 {
 public:
-	MaxHeap(int cap = 10)
+	MinHeap(int cap = 10)
 	{
 		assert(cap > 0);
 
 		capacity_ = cap;
 		size_ = 0;
 		heap_ = new T[capacity_ + 1]; // heap[0]은 비워둡니다.
-	}
-
-	~MaxHeap()
-	{
-		// assert(cap > 0);
-		if (this->capacity_)
-		{
-			this->capacity_ = 0;
-			this->size_ = 0;
-			delete [] this->heap_;
-		}
-
-		this->heap_ = nullptr;
 	}
 
 	void Resize(int new_capacity)
@@ -78,26 +68,10 @@ public:
 		size_ += 1;
 		int current = size_; // 마지막에 추가가될 위치 (인덱스)
 
-		/**
-		 * 부모가 될 값과 비교
-		 * current / 2 => parent_idx;
-		*/
 		while (current != 1 /* && TODO */) // 부모 위치의 값이 추가하려는 값보다 작다면
 		{
 			// 부모 위치의 값을 자식 위치로 복사해서 내린다.
 			// TODO:
-			int parent = current / 2;
-
-			 if (item > this->heap_[parent])
-			 {
-				this->heap_[current] = this->heap_[parent];
-			 	current = current / 2;
-			 }
-			 else
-			 {
-				this->heap_[current] = item;
-				break ;
-			 }
 
 			//cout << "Current = " << current << endl;
 			//Print();
@@ -128,39 +102,6 @@ public:
 		{
 			// left, right 중에서 더 큰 자식의 인덱스를 찾는다. 이때 자식이 하나라면 찾을 필요 없음
 			// TODO:
-			int left_child = this->heap_[child];
-			int right_child = std::numeric_limits<T>::min();
-			
-			if (child < this->size_)
-				right_child = this->heap_[child + 1];
-			if (left_child > right_child)
-			{
-				if (last_item < left_child)
-				{
-					this->heap_[current] = left_child;
-					current = child;
-				}
-				else 
-				{
-					this->heap_[current] = last_item;
-					break ;
-				}
-			}
-			else 
-			{
-				if (last_item < right_child)
-				{
-					this->heap_[current] = right_child;
-					current = child + 1;
-				}
-				else 
-				{
-					this->heap_[current] = last_item;
-					break ;
-				}
-			}
-			child = current * 2;
-			
 
 			// 마지막 값이 더 큰 자식의 값 이상이면 더이상 적절한 위치를 찾을 필요가 없기 때문에 루프 중단
 			// TODO:

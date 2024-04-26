@@ -34,7 +34,7 @@ int main()
 	{
 		cout << h.Top() << " ";
 		h.Pop();
-		// h.Print();
+		h.Print();
 	}
 	cout << endl;
 

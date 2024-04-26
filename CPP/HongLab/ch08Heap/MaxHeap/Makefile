@@ -1,9 +1,9 @@
-NAME = Heap
+NAME = MaxHeap
 CXX = g++
 CXXFLAGS = -g #-Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = Heap.cpp
+SRCS = MaxHeap.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
