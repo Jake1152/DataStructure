@@ -30,14 +30,15 @@ int main()
 	cout << bst.RecurGet(1)->value << endl;
 	cout << bst.RecurGet(4)->value << endl;
 
-	// bst.Remove(999); // 없는 키에대해 삭제
-	// bst.Print2D();
+	bst.Remove(999); // 없는 키에대해 삭제
+	bst.Print2D();
 
-	// for (int i : {5, 4, 7, 3})
-	// {
-	// 	bst.Remove(i);
-	// 	bst.Print2D();
-	// }
+	for (int i : {5, 4, 7, 3, 1, 8, 6})
+	// for (int i : {1, 4, 6, 8, 3, 7, 5})
+	{
+		bst.Remove(i);
+		bst.Print2D();
+	}
 
 	return 0;
 }

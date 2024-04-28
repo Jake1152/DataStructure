@@ -1,6 +1,6 @@
 NAME = BinarySearchTree
 CXX = g++
-CXXFLAGS = -g #-Wall -Wextra -Werror
+CXXFLAGS = -g -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = BinarySearchTree.cpp
