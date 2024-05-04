@@ -66,33 +66,56 @@ void InsertionSort(int arr[], int n)
 	}
 }
 
+// Mine
+// void InsertionSort(int arr[], int n, int gap) // gap 추가
+// {
+// 	cout << "gap = " << gap << endl;
+
+// Honglab way
 void InsertionSort(int arr[], int n, int gap) // gap 추가
 {
-	cout << "gap = " << gap << endl;
+    cout << "gap = " << gap << endl;
 
-	for (int be_sorted_idx = gap; be_sorted_idx < n; be_sorted_idx += 1)
-	{
-		cout << "Before : ";
-		Print(arr, n, be_sorted_idx, gap);
+    for (int i = gap; i < n; i += 1)
+    {
+        cout << "Before : ";
+        Print(arr, n, i, gap);
 
-		// be_sorted_idx - gap
-		// TODO:
-		// std::cout << "be_sorted_idx - gap : " << be_sorted_idx - gap << "\t,be_sorted_idx : " << be_sorted_idx << std::endl;
-		// if (arr[be_sorted_idx - gap] > arr[be_sorted_idx])
-		// {
-		// 	std::cout << "\t#arr[i - gap] : " << arr[i - gap] << "\tarr[i] : " << arr[i] << std::endl;
-		// 	my_swap(arr[i - gap], arr[i]);
-		// }
-		// # 고른 값이 적절한 위치에 "갈때까지" 이동
-		for (int sorted_id = be_sorted_idx; sorted_id > 0 && arr[sorted_id - gap] > arr[sorted_id]; sorted_id--)
-		{
-			my_swap(arr[sorted_id - gap], arr[sorted_id]);
-		}
+        int key = arr[i];
+        int j = i;
+        for (; j >= gap && arr[j - gap] > key; j -= gap)
+            arr[j] = arr[j - gap];
+            arr[j] = key;
 
-		cout << " After : ";
-		Print(arr, n, be_sorted_idx, gap);
-	}
+        cout << " After : ";
+        Print(arr, n, i, gap);
+    }
 }
+
+
+// 	for (int be_sorted_idx = gap; be_sorted_idx < n; be_sorted_idx += 1)
+// 	{
+// 		cout << "Before : ";
+// 		Print(arr, n, be_sorted_idx, gap);
+
+// 		// be_sorted_idx - gap
+// 		// TODO:
+// 		// std::cout << "be_sorted_idx - gap : " << be_sorted_idx - gap << "\t,be_sorted_idx : " << be_sorted_idx << std::endl;
+// 		// if (arr[be_sorted_idx - gap] > arr[be_sorted_idx])
+// 		// {
+// 		// 	std::cout << "\t#arr[i - gap] : " << arr[i - gap] << "\tarr[i] : " << arr[i] << std::endl;
+// 		// 	my_swap(arr[i - gap], arr[i]);
+// 		// }
+// 		// # 고른 값이 적절한 위치에 "갈때까지" 이동
+// 		for (int sorted_id = be_sorted_idx; sorted_id > 0 && arr[sorted_id - gap] > arr[sorted_id]; sorted_id -= gap)
+// 		{
+// 			my_swap(arr[sorted_id - gap], arr[sorted_id]);
+// 		}
+
+// 		cout << " After : ";
+// 		Print(arr, n, be_sorted_idx, gap);
+// 	}
+// }
 
 void ShellSort(int arr[], int n)
 {
