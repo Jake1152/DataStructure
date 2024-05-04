@@ -59,8 +59,8 @@ void InsertionSort(int arr[], int n)
 		Print(arr, n);
 		for (int sorted_id = be_sorted_idx; sorted_id > 0 && arr[sorted_id - 1] > arr[sorted_id]; sorted_id--)
 		{
-			cout << "         ";
-			Print(arr, n);
+			// cout << "         ";
+			// Print(arr, n);
 			my_swap(arr[sorted_id - 1], arr[sorted_id]);
 		}
 	}
@@ -70,33 +70,45 @@ void InsertionSort(int arr[], int n, int gap) // gap 추가
 {
 	cout << "gap = " << gap << endl;
 
-	for (int i = gap; i < n; i += 1)
+	for (int be_sorted_idx = gap; be_sorted_idx < n; be_sorted_idx += 1)
 	{
 		cout << "Before : ";
-		Print(arr, n, i, gap);
+		Print(arr, n, be_sorted_idx, gap);
 
+		// be_sorted_idx - gap
 		// TODO:
+		// std::cout << "be_sorted_idx - gap : " << be_sorted_idx - gap << "\t,be_sorted_idx : " << be_sorted_idx << std::endl;
+		// if (arr[be_sorted_idx - gap] > arr[be_sorted_idx])
+		// {
+		// 	std::cout << "\t#arr[i - gap] : " << arr[i - gap] << "\tarr[i] : " << arr[i] << std::endl;
+		// 	my_swap(arr[i - gap], arr[i]);
+		// }
+		// # 고른 값이 적절한 위치에 "갈때까지" 이동
+		for (int sorted_id = be_sorted_idx; sorted_id > 0 && arr[sorted_id - gap] > arr[sorted_id]; sorted_id--)
+		{
+			my_swap(arr[sorted_id - gap], arr[sorted_id]);
+		}
 
 		cout << " After : ";
-		Print(arr, n, i, gap);
+		Print(arr, n, be_sorted_idx, gap);
 	}
 }
 
 void ShellSort(int arr[], int n)
 {
-	// for (int gap = n / 2; gap > 0; gap /= 2)
-	// {
-	// 	cout << "         ";
-	// 	Print(arr, n);
+	for (int gap = n / 2; gap > 0; gap /= 2)
+	{
+		cout << "         ";
+		Print(arr, n);
 
-	// 	InsertionSort(arr, n, gap);
-	// }
-	InsertionSort(arr, n);
+		InsertionSort(arr, n, gap);
+	}
+	// InsertionSort(arr, n);
 
-	// cout << "         ";
+	cout << "         ";
 	cout << endl;
 	Print(arr, n);
-	cout << endl;
+	// cout << endl;
 }
 
 int main()
