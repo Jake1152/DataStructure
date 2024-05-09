@@ -73,12 +73,23 @@ public:
 		if (key > node->item.key)
 			return RecurGet(node->right, key);
 
-		return &node->item; // if (key == node->item.key)
+		return &(node->item); // if (key == node->item.key)
 	}
 
 	Item* IterGet(const K& key)
 	{
 		// TODO:
+		Node *cur_node = this->root_;
+
+		while (cur_node)
+		{
+			if (cur_node->item.key > key)
+				cur_node = cur_node->left;
+			else if (cur_node->item.key < key)
+				cur_node = cur_node->right;
+			else // ==
+				return &(cur_node->item);
+		}
 
 		return nullptr; // No matching
 	}
@@ -86,8 +97,9 @@ public:
 	void Insert(const Item& item)
 	{
 		using namespace std;
-		cout << "Insert " << item.key << item.value << endl;
-		root_ = Insert(root_, item);
+		cout << "Insert " << item.key << ", " << item.value << endl;
+		// root_ = Insert(root_, item);
+		Insert(root_, item);
 	}
 
 	Node* Insert(Node* node, const Item& item)
@@ -95,13 +107,88 @@ public:
 		// 힌트: RecurGet()
 
 		// TODO:
+		if (node == nullptr && node == this->root_)
+		{
+			if (this->root_ == nullptr)
+				std::cout << "# item : " << item.key << ", "<< item.value << std::endl;
+			Node *new_node = new Node{item, nullptr, nullptr};
+			this->root_ = new_node;
 
-		return node;
+			return new_node;
+		}
+		if (item.key < node->item.key)
+		{
+			if (node->left == nullptr)
+			{
+				Node *new_node = new Node{item, nullptr, nullptr};
+				node->left = new_node;
+
+				return new_node;
+			}
+			else
+				return Insert(node->left, item);
+		}
+		else if (item.key > node->item.key)
+		{
+			if (node->right == nullptr)
+			{
+				Node *new_node = new Node{item, nullptr, nullptr};
+				node->right = new_node;
+
+				return new_node;
+			}
+			else
+				return Insert(node->right, item);
+		}
+		else
+		{
+			node->item = item;
+
+			return node;
+		}
+		// return node;
 	}
 
 	void IterInsert(const Item& item)
 	{
 		// TODO:
+		Node *new_node = new Node{item, nullptr, nullptr};
+
+		if (this->root_ == nullptr)
+		{
+			this->root_ = new_node;
+			return ;
+		}
+		
+		Node *cur_node = this->root_;
+		while (cur_node)
+		{
+			if (new_node->item.key < cur_node->item.key)
+			{
+				if (cur_node->left == nullptr)
+				{
+					cur_node->left = new_node;
+					return ;
+				}
+				cur_node = cur_node->left;
+			}
+			else if (new_node->item.key > cur_node->item.key)
+			{
+				if (cur_node->right == nullptr)
+				{
+					cur_node->right = new_node;
+					return ;
+				}
+				cur_node = cur_node->right;
+			} else if (new_node->item.key == cur_node->item.key)
+			{
+				// std::cout << "## cur_node->item : " << cur_node->item << std::endl;
+				cur_node->item = item;
+				// std::cout << "## cur_node->item : " << cur_node->item << std::endl;
+				delete new_node;
+				return ;
+			}
+		}
 	}
 
 	Node* MinKeyLeft(Node* node)
@@ -130,8 +217,106 @@ public:
 		else
 		{
 			// TODO:
-		}
+			// 단말노드인 경우
+			bool root_flag = false;
 
+			if (node == this->root_)
+				root_flag = true;
+			std::cout << std::boolalpha << "root_flag : " << root_flag << std::endl;
+			// root노드가 단말노드인 경우, 단말의 부모노드들에게서는 단말노드와의 연결을 끊어야 한다. return이 되게 되므로 끊길 것
+			if (node->left == nullptr && node->right == nullptr)
+			{				
+				delete node;
+				node = nullptr;
+			}
+			// 왼쪽 자식이 있는 경우 
+			else if (node->left)
+			{
+				// 왼쪽 중 가장 큰 후손노드를 삭제될 위치에 삽입
+				Node *replace_node = node->left;
+				while (replace_node->right)
+				{
+					if (replace_node->right->right == nullptr)
+					{
+						/**
+						 * Height = 3
+										5F                              
+								'3D'               7H              
+							1B       4E       6Z       8I   
+
+							replace_node가 '3D' 인 상황
+						*/
+						Node *temp = replace_node->right;
+						
+						// 대체될 노드의 부모노드 입장에서 대체될 노드에 대한 연결을 끊는다.
+						replace_node->right = nullptr;
+						replace_node = temp;
+					}
+					else
+					{
+						replace_node = replace_node->right;
+					}
+				}
+				std::cout << "replace_node : " << replace_node->item.key << std::endl;
+				if (replace_node == node->left)
+				{
+					replace_node->right = node->right;
+					delete node;
+					node = replace_node;
+				}
+				else
+				{
+					replace_node->left = node->left;
+					replace_node->right = node->right;
+					delete node;
+					node = replace_node;
+				}
+			}
+			// 오른쪽 자식이 있는 경우
+			else if (node->right)
+			{
+				// 오른쪽 서브트리 중 가장 작은 후손노드를 삭제될 위치에 삽입
+				Node *replace_node = node->right;
+				while (replace_node->left)
+				{
+					if (replace_node->left->left == nullptr)
+					{
+						Node *temp = replace_node->left;
+						
+						// 대체될 노드의 부모노드 입장에서 대체될 노드에 대한 연결을 끊는다.
+						replace_node->left = nullptr;
+						replace_node = temp;
+					}
+					else
+					{
+						replace_node = replace_node->left;
+					}
+				}
+				if (replace_node == node->right)
+				{
+					replace_node->left = node->left;
+					delete node;
+					node = replace_node;
+				}
+				else
+				{
+					replace_node->left = node->left;
+					replace_node->right = node->right;
+					delete node;
+					node = replace_node;
+				}
+			}
+			if (root_flag)
+				this->root_ = node;
+			if (node)
+				std::cout << "# node : " << node->item.key << std::endl;
+			if (this->root_)
+				std::cout << "# root_ : " << this->root_->item.key << std::endl;
+			if (node && node->left)
+				std::cout << "# left : " << node->left->item.key << std::endl;
+			if (node && node->right)
+				std::cout << "# right : " << node->right->item.key << std::endl;
+		}
 		return node;
 	}
 
@@ -152,6 +337,9 @@ public:
 
 protected:
 	Node* root_ = nullptr;
+
+private:
+	// copy_assign() // =, ()
 };
 
 // 디버깅 편의 도구
