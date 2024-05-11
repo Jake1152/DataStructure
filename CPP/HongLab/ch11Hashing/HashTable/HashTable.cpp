@@ -29,22 +29,49 @@ public:
 		delete[] table_;
 	}
 
+	// Honglab
+	void Insert(const Item& item)
+	{
+		size_t index = HashFunc(item.key);
+		// key가 int 자료형일때는 0이면 비어있는 것으로 가정
+		// key가 문자열 자료형일때는 길이가 0 비어있는 것으로 가정
+
+		if (table_[index].key != K())
+			cout << "Collision!" << endl;
+
+		for (int i = 0; i < capacity_; i++)
+		{
+			int temp = (index + i) % capacity_;
+			if (table_[temp].key == K())
+			{
+				table_[temp] = item;
+				return;
+			}
+		}
+		cout << "Failed to insert" << endl;
+	}
+
 	/** OpenAddressing Way
 	 * 
 	*/
-	void Insert(const Item& item)
-	{
-		// TODO:
-		// size_t index = item.key; // 키를 인덱스로 사용
-		size_t index = HashFunc(item.key);
+	// void Insert(const Item& item)
+	// {
+	// 	// TODO:
+	// 	// size_t index = item.key; // 키를 인덱스로 사용
+	// 	size_t index = HashFunc(item.key);
 
-		// bool type_result = std::is_same_v<decltype(item), std::string>;
+	// 	// bool type_result = std::is_same_v<decltype(item), std::string>;
+
+	// 	// key가 int 자료형 일때는 0이면 비어있느 것으로 가정
+
+	// 	// key가 문자열 일때는 ㅣㄹ이가 0이면 비어있느 것으로 가정
 		
-		// cout << "type_result  : " << type_result  << "\ttypeid(table_[index].key).name() : " << typeid(table_[index].key).name() << endl;
-		// while (table_[index].key) /** && index < table_size*/
-		// 	index++;
-		table_[index] = item;
-	}
+	// 	// cout << "type_result  : " << type_result  << "\ttypeid(table_[index].key).name() : " << typeid(table_[index].key).name() << endl;
+	// 	// K() 생성자 호출을 이용하여, 문자열은 "", 숫자는 0으로 초기화되게 하고 그것을 이용하여 비었는지를 판단한다.
+	// 	while (table_[index].key != K()) /** && index < table_size*/
+	// 		index++;
+	// 	table_[index] = item;
+	// }
 
 	V Get(const K& key)
 	{
@@ -54,11 +81,12 @@ public:
 		// Honglab Way
 		for (int i = 0; i < capacity_; i++)
 		{
-			index = (index + i) % capacity_;
-			if (table_[index].key == key)
-				return table_[index].value;
+			// index = (index + i) % capacity_;
+			size_t compare_index = (index + i) % capacity_;
+			if (table_[compare_index].key == key)
+				return table_[compare_index].value;
 		}
-		return 0;
+		return V();
 	}
 
 	// 정수 -> 해시값
@@ -76,9 +104,12 @@ public:
 	{
 		size_t key = 0;
 
+		// "ABC"
+		// index = g * (g * int('A") + int('B')) + int('C');
+		const int g = 31;
 		for (size_t idx = 0; idx < s.length(); idx++)
-			key += int(s.at(idx));
-		std::cout << "key : " << key << std::endl;
+			key =  g * key + int(s.at(idx));
+		// std::cout << "key : " << key << std::endl;
 		// TODO:
 		size_t result = key % this->capacity_;
 		// std::cout << "\nresult : " << result << std::endl;
