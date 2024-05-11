@@ -29,6 +29,9 @@ public:
 		// TODO:
 
 		size_t index = item.key; // 키를 인덱스로 사용
+
+		while (table_[index] != 0) /** && index < table_size*/
+			index++;
 		table_[index] = item;
 	}
 
