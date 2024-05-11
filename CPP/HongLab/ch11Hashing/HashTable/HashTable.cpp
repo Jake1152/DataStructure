@@ -13,6 +13,11 @@ public:
 		V value = V();
 	};
 
+	/**
+	 * 해시함수가 복잡하더라도 충돌을 막을 수는 없다.
+	 * 그렇기에 해시함수를 만들때는 충돌을 고려해서 만들어야 한다.
+	*/
+
 	HashTable(const int& cap = 8)
 	{
 		capacity_ = cap;
@@ -24,13 +29,16 @@ public:
 		delete[] table_;
 	}
 
+	/** OpenAddressing Way
+	 * 
+	*/
 	void Insert(const Item& item)
 	{
 		// TODO:
+		// size_t index = item.key; // 키를 인덱스로 사용
+		size_t index = HashFunc(item.key);
 
-		size_t index = item.key; // 키를 인덱스로 사용
-
-		while (table_[index] != 0) /** && index < table_size*/
+		while (table_[index].key) /** && index < table_size*/
 			index++;
 		table_[index] = item;
 	}
@@ -38,8 +46,7 @@ public:
 	V Get(const K& key)
 	{
 		// TODO: 못 찾으면 0을 반환
-
-		size_t index = key;
+		size_t index = HashFunc(key);
 		return table_[index].value;
 	}
 
@@ -47,8 +54,9 @@ public:
 	size_t HashFunc(const int& key)
 	{
 		// TODO:
-
-		return key;
+		size_t result = key % this->capacity_;
+		std::cout << "\nresult : " << result << std::endl;
+		return result;
 	}
 
 	// 문자열을 정수 인덱스(해시값)로 변환
