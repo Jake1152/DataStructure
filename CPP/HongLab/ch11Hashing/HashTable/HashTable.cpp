@@ -38,8 +38,11 @@ public:
 		// size_t index = item.key; // 키를 인덱스로 사용
 		size_t index = HashFunc(item.key);
 
-		while (table_[index].key) /** && index < table_size*/
-			index++;
+		// bool type_result = std::is_same_v<decltype(item), std::string>;
+		
+		// cout << "type_result  : " << type_result  << "\ttypeid(table_[index].key).name() : " << typeid(table_[index].key).name() << endl;
+		// while (table_[index].key) /** && index < table_size*/
+		// 	index++;
 		table_[index] = item;
 	}
 
@@ -54,10 +57,8 @@ public:
 			index = (index + i) % capacity_;
 			if (table_[index].key == key)
 				return table_[index].value;
-
 		}
 		return 0;
-
 	}
 
 	// 정수 -> 해시값
@@ -71,10 +72,18 @@ public:
 
 	// 문자열을 정수 인덱스(해시값)로 변환
 	// Horner's method
-	//size_t HashFunc(const string& s)
-	//{
-	//  return TODO:
-	//}
+	size_t HashFunc(const string& s)
+	{
+		size_t key = 0;
+
+		for (size_t idx = 0; idx < s.length(); idx++)
+			key += int(s.at(idx));
+		std::cout << "key : " << key << std::endl;
+		// TODO:
+		size_t result = key % this->capacity_;
+		// std::cout << "\nresult : " << result << std::endl;
+		return result;
+	}
 
 	void Print()
 	{
@@ -122,32 +131,33 @@ int main()
 	}
 
 	// 키: std::string, 값: int
-	//{
-	//	using Item = HashTable<string, int>::Item;
+	/*
+	*/
+	{
+		using Item = HashTable<string, int>::Item;
 
-	//	HashTable<string, int> h(8);
+		HashTable<string, int> h(8);
 
-	//	h.Insert(Item{ "apple", 1 });
-	//	h.Insert(Item{ "orange", 2 });
-	//	h.Insert(Item{ "mandarin", 4 });
+		h.Insert(Item{ "apple", 1 });
+		h.Insert(Item{ "orange", 2 });
+		h.Insert(Item{ "mandarin", 4 });
 
-	//	h.Print();
+		h.Print();
 
-	//	cout << "apple " << h.Get("apple") << endl;
-	//	cout << "orange " << h.Get("orange") << endl;
-	//	cout << endl;
+		cout << "apple " << h.Get("apple") << endl;
+		cout << "orange " << h.Get("orange") << endl;
+		cout << endl;
 
-	//	h.Print();
+		h.Print();
 
-	//	h.Insert(Item{ "tomato", 4 });
+		h.Insert(Item{ "tomato", 4 });
 
-	//	h.Print(); 
+		h.Print(); 
 
-	//	cout << "apple " << h.Get("apple") << endl;
-	//	cout << "orange " << h.Get("orange") << endl;
-	//	cout << "pineapple " << h.Get("pineapple") << endl;
-	//	cout << endl;
-	//}
-
+		cout << "apple " << h.Get("apple") << endl;
+		cout << "orange " << h.Get("orange") << endl;
+		cout << "pineapple " << h.Get("pineapple") << endl;
+		cout << endl;
+	}
 	return 0;
 }
