@@ -44,7 +44,7 @@ int InterpolationSearch(int arr[], int low_pos, int high_pos, int target)
 		// std::cout << "arr[low_pos] : " << arr[low_pos] << std::endl;
 		// std::cout << "target : " << target << std::endl;
 		// std::cout << "(arr[high_pos] - arr[low_pos]) : " << (double)(arr[high_pos] - arr[low_pos]) << std::endl;
-		const double ratio = ((target - arr[low_pos])) / (double)(arr[high_pos] - arr[low_pos]);
+		const double ratio = ((target - arr[low_pos])) / static_cast<double>(arr[high_pos] - arr[low_pos]);
 		// std::cout.precision(4);
 		// std::cout << "ratio : " << ratio << std::endl;
 		// const int pos = std::round(ratio);
