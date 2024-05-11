@@ -1,0 +1,18 @@
+10 was found at index 0
+rec_count = 1
+
+18 was found at index 4
+rec_count = 2
+
+33 was found at index 11
+rec_count = 2
+
+47 was found at index 14
+rec_count = 1
+
+-1 was not found.
+rec_count = 1
+
+99 was not found.
+rec_count = 1
+
