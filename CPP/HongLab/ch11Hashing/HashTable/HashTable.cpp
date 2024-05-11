@@ -47,7 +47,17 @@ public:
 	{
 		// TODO: 못 찾으면 0을 반환
 		size_t index = HashFunc(key);
-		return table_[index].value;
+		
+		// Honglab Way
+		for (int i = 0; i < capacity_; i++)
+		{
+			index = (index + i) % capacity_;
+			if (table_[index].key == key)
+				return table_[index].value;
+
+		}
+		return 0;
+
 	}
 
 	// 정수 -> 해시값
@@ -55,7 +65,7 @@ public:
 	{
 		// TODO:
 		size_t result = key % this->capacity_;
-		std::cout << "\nresult : " << result << std::endl;
+		// std::cout << "\nresult : " << result << std::endl;
 		return result;
 	}
 
