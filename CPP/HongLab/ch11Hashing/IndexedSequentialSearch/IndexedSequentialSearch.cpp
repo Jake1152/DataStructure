@@ -13,6 +13,18 @@ int SequentialSearch(int arr[], int start, int stop, int target)
 	return -1;
 }
 
+// TODO Bonus:
+int BinarySearch(int arr[], int low, int high, int target)
+{
+	return -1;
+}
+
+// TODO Bonus:
+int InterpolationSearch(int arr[], int low, int high, int target)
+{
+	return -1;
+}
+
 int main()
 {
 	int arr[] = { 1, 2, 8, 13, 22, 45, 55, 75, 88 };
