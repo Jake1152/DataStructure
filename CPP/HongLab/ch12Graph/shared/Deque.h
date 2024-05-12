@@ -1,0 +1,68 @@
+#pragma once
+
+#include "Queue.h"
+
+#include <cassert>
+#include <iostream>
+#include <iomanip>
+
+// Double Ended Queue (덱, dequeue와 구분)
+template<typename T>
+class Deque : public Queue<T>
+{
+
+	typedef Queue<T> Base;
+
+public:
+	Deque(int capacity)
+		: Queue<T>(capacity)
+	{
+	}
+
+	T& Front()
+	{
+		return Base::Front();
+	}
+
+	T& Back()
+	{
+		return Base::Rear();
+	}
+
+	void PushFront(const T& item)
+	{
+		if (Base::IsFull())
+			Base::Resize();
+
+		// TODO:
+		this->queue_[this->front_] = item;
+		// this->front_ = (this->front_ - 1 + this->capacity_) % this->capacity_;
+		if (this->front_ == 0)
+			this->front_ = this->capacity_ - 1;
+		else
+			this->front_ -= 1;
+	}
+
+	void PushBack(const T& item)
+	{
+		Base::Enqueue(item);
+	}
+
+	void PopFront()
+	{
+		Base::Dequeue();
+	}
+
+	void PopBack()
+	{
+		assert(!Base::IsEmpty());
+
+		// TODO!!: (this->rear_ - 1) 
+		// this->rear_ = (this->rear_ - 1) % this->capacity_;
+		// Hong, rear가 0일때를 감안해서 + Base::capacity_를 처리함
+		Base::rear_ = (Base::rear_ - 1 + Base::capacity_) % Base::capacity_;
+	}
+
+private:
+	// Queue와 동일
+};
