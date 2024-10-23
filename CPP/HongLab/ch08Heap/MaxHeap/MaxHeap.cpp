@@ -4,6 +4,15 @@
 
 using namespace std;
 
+class Dog
+{
+public:
+	Dog() {}
+	~Dog() {
+		cout << "Dog destructor" << endl;
+	}
+};
+
 int main()
 {
 	// 개념 설명은 트리인데 구현은 배열 (연결 표현법으로도 구현 가능)
@@ -23,7 +32,10 @@ int main()
 
 	MaxHeap<int> h;
 
-	for (auto i : { 2, 8, 5, 3, 2, 1, 9, 3, 7 })
+	Dog d1 = Dog();
+	Dog d2 = Dog();
+	// for (auto i : { 2, 8, 5, 3, 2, 1, 9, 3, 7 })
+	for (Dog i : { d1, d2 })
 	{
 		h.Push(i);
 		h.Print();
@@ -34,7 +46,7 @@ int main()
 	{
 		cout << h.Top() << " ";
 		h.Pop();
-		// h.Print();
+		h.Print();
 	}
 	cout << endl;
 

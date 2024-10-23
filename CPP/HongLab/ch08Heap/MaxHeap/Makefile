@@ -1,6 +1,6 @@
 NAME = MaxHeap
 CXX = g++
-CXXFLAGS = -g #-Wall -Wextra -Werror
+CXXFLAGS = -g -Wall -Wextra -Werror -g
 RM = rm -f
 
 SRCS = MaxHeap.cpp
