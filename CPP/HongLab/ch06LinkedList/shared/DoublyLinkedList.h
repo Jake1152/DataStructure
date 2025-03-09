@@ -50,6 +50,7 @@ public:
 			cur_node = cur_node->right;
 			delete temp;
 		}
+		// this->first_ = nullptr;
 	}
 
 	bool IsEmpty()
@@ -262,7 +263,7 @@ public:
 
 		// 맨 뒤에서 하나 앞의 노드를 찾아야 합니다.
 
-		assert(first_);
+		// assert(first_);
 
 		// TODO:
 		// # mine
@@ -312,27 +313,27 @@ public:
 	{
 		// TODO:
 		// # mine
-		// if (IsEmpty())
-		// 	return ;
+		if (IsEmpty())
+			return ;
 
-		// Node *cur_node = this->first_;
-		// Node *prev_node = nullptr;
+		Node *cur_node = this->first_;
+		Node *prev_node = nullptr;
 
-		// // A <-> B <-> C
-		// // B <-> A  
-		// while (cur_node->right)
-		// {
-		// 	prev_node = cur_node;
-		// 	cur_node = cur_node->right;
+		// A <-> B <-> C
+		// B <-> A  
+		while (cur_node->right)
+		{
+			prev_node = cur_node;
+			cur_node = cur_node->right;
 
-		// 	Node *temp = prev_node->left;
+			Node *temp = prev_node->left;
 
-		// 	prev_node->left = prev_node->right;
-		// 	prev_node->right = temp;
-		// }
-		// cur_node->left = cur_node->right;
-		// cur_node->right = prev_node;
-		// this->first_ = cur_node;
+			prev_node->left = prev_node->right;
+			prev_node->right = temp;
+		}
+		cur_node->left = cur_node->right;
+		cur_node->right = prev_node;
+		this->first_ = cur_node;
 
 		// # honglab way
 		if (IsEmpty())

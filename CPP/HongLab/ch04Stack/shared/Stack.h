@@ -36,14 +36,15 @@ public:
 
 	bool IsEmpty() const
 	{
-        if (this->top_ == -1)
-		    return true;
-        return false;
+        // if (this->top_ == -1)
+		//     return true;
+        // return false;
+        return this->top_ == -1;
 	}
 
 	int Size() const
 	{
-		return this->top_ + 1; //TODO:
+		return this->top_ + 1;
 	}
 
 	void Print()
@@ -70,19 +71,22 @@ public:
         if (this->Size() >= this->capacity_)
             this->Resize(this->Size() * 2);
 
-		// TODO:
         this->top_ += 1;
-        // std::memcpy(&(this->stack_[this->top_]), item, sizeof(T));
         this->stack_[this->top_] = item;
 	}
 
 	// Delete the TOP element of the stack
+    /**
+     * memory가 부족한 경우에는 resize하여 크기를 줄여준다.
+    */
 	void Pop()
 	{
 		assert(!IsEmpty());
 
-		// TODO:
         this->top_ -= 1;
+        // this->top_-- vs this->top_ -= 1;
+        // 메모리를 지워야하는 경우
+        // stack[top--].~T(); // 소멸자를 수동으로 호출
 	}
 
 protected: // 뒤에서 상속해서 사용

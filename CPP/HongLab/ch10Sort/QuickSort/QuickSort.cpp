@@ -36,6 +36,41 @@ void Print(int* arr, int low, int high, int n)
 	cout << endl;
 }
 
+
+// Hong lab 구현 예시
+// 추가 힌트: do-while 사용
+/***/
+int Partition(int arr[], int low, int high, int n)
+{
+    int pivot = arr[size_t(floorf((high - low) / 2.0f)) + low];
+    int i = low - 1;
+    int j = high + 1;
+
+    cout << "pivot=" << pivot << endl;
+    cout << "         ";
+    Print(arr, low, high, n);
+
+    while (true)
+    {
+        do i = i + 1;
+        while (arr[i] < pivot);
+
+        do j = j - 1;
+        while (arr[j] > pivot);
+
+        if (i >= j)
+        return j;
+
+        swap(arr[i], arr[j]);
+
+        cout << "i=" << i << ", j=" << j << endl;
+        cout << "         ";
+        Print(arr, low, high, n);
+    }
+}
+
+
+/** Mine
 // Hoare partition scheme
 int Partition(int arr[], int low, int high, int n)
 {
@@ -44,9 +79,6 @@ int Partition(int arr[], int low, int high, int n)
 	// int j = high + 1;
 	int i = low;
 	int j = high;
-
-	// int i = low;
-	// int j = high;
 
 	while (true)
 	{
@@ -64,6 +96,7 @@ int Partition(int arr[], int low, int high, int n)
 			return i;
 	}
 }
+*/
 
 void QuickSort(int arr[], int low, int high, int n) // 마지막 n은 출력용
 {

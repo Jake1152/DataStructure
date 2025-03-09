@@ -21,6 +21,13 @@ using namespace std;
 - 완전 이진 트리(complete binary tree): 마지막 레벨 외에는 모두 다 차있고 마지막 레벨은 왼쪽부터 차있는 트리 (중간 빈곳 X)
 */
 
+
+/**
+ *       6
+ *     2   5
+ *    1       4
+ *     3
+*/
 int main()
 {
 	// 배열로도 구현 가능
@@ -66,9 +73,9 @@ int main()
 	tree.IterPreorder();
 	cout << endl;
 
-	// cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
-	// tree.IterInorder();
-	// cout << endl;
+	cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
+	tree.IterInorder();
+	cout << endl;
 
 	// cout << "Iterative Postorder" << endl; // 3 1 2 4 5 6
 	// tree.IterPostorder();
@@ -80,11 +87,17 @@ int main()
 	*/
 	// 트리 소멸자에서 삭제
 	// delete n1;
+	// n1 = nullptr;
 	// delete n2;
+	// n2 = nullptr;
 	// delete n3;
+	// n3 = nullptr;
 	// delete n4;
+	// n4 = nullptr;
 	// delete n5;
+	// n5 = nullptr;
 	// delete n6;
+	// n6 = nullptr;
 
 	return 0;
 }

@@ -69,7 +69,7 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial& poly)
 	// size_t max_iter = std::min(this->num_terms_, poly.num_terms_);
 	size_t poly_one_iter = 0;
 	size_t poly_two_iter = 0;
-	while (poly_one_iter < this->num_terms_ && poly_two_iter < poly.num_terms_)
+	while ((poly_one_iter < this->num_terms_) && (poly_two_iter < poly.num_terms_))
 	{
 		float coef;
 

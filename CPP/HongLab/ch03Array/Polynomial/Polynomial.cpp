@@ -98,8 +98,6 @@ Polynomial Polynomial::Mult(const Polynomial& poly)
 	// Polynomial temp(temp_poly_max_degree);
 	Polynomial temp(this->capacity_ - 1);
 	// coeff_[i]가 0.0f가 아닌 경우에 대해서만 계산 (곱하면 0이 되기 때문)
-
-	size_t max_degree = poly.capacity_ - 1;
 	for (size_t exp = 0; exp < temp.capacity_; exp++)
 		if (this->coeffs_[exp] != 0.00000f)
 			for (size_t arg_poly_exp = 0; arg_poly_exp < poly.capacity_; arg_poly_exp++)

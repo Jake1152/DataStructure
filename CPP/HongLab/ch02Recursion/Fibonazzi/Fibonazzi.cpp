@@ -13,7 +13,6 @@ int Fibonacci(int n)
 		return 1; // F1 = 1
 	else
 	{
-
 		// TODO:
 		int iter = 2;
 		int secondFromRear = 0;

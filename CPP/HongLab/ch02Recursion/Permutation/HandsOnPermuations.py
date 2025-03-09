@@ -15,11 +15,11 @@ def permutations(base_list, pick_count):
         print(f"{base_list=}, {pick_count=}")
         if (pick_count > 1):
             for index, element in enumerate(base_list):
-                return tuple(element) + tuple(permute(base_list[:index] + base_list[index + 1:], pick_count - 1))
-        return tuple(base_list[0])
+                return tuple(element,) + tuple(permute(base_list[:index] + base_list[index + 1:], pick_count - 1),)
+        return tuple(base_list[0],)
     for index, element in enumerate(base_list):
         print(f"{element=}")
-        permutations_list.append(tuple(element) + permute(base_list[:index] + base_list[index + 1:], pick_count - 1))
+        permutations_list.append(tuple(element,) + tuple(permute(base_list[:index] + base_list[index + 1:], pick_count - 1),))
     # current_case.add
     # print(f"{base_list=}")
     # print(f"{pick_count=}")

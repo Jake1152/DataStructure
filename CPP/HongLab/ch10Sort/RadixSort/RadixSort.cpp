@@ -46,6 +46,7 @@ int main()
 
 	int max_val = GetMax(arr, n); // 가장 큰 자리수를 찾기 위해서
 
+	8437
 	for (int exp = 1; max_val / exp > 0; exp *= base_size)
 	{
 		// TODO:
@@ -61,10 +62,9 @@ int main()
 			int divisor = static_cast<int>(base_size * exp);
 			// std::cout << "### element : " <<  element << std::endl;
 			// std::cout << "# divisor : " << divisor << std::endl;
-			int queue_idx = static_cast<int>(element % divisor) / exp;
+			int queue_idx = static_cast<int>((element % divisor) / exp);
 			// std::cout << "# queue_idx : " << queue_idx << std::endl;
 			queues[queue_idx].Enqueue(element);
-
 		}
 
 		int idx = 0;

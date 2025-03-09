@@ -87,7 +87,6 @@ public:
 
 		Node* my_list_node = this->first_;
 		Node* other_list_node = poly.first_;
-
 		
 		// Node *cur_node = this->Size() > poly.Size() ? my_list_node : other_list_node;
 		// TODO:

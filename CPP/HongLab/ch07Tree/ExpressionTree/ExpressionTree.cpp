@@ -95,7 +95,7 @@ public:
 		{
 			char c = postfix.Front();
 
-			// std::cout << "c : " << c << std::endl;
+			std::cout << "c : " << c << std::endl;
 			postfix.Dequeue();
 
 			Node *node = new Node;
@@ -262,6 +262,7 @@ int main()
 {
 	using Node = ExpressionTree::Node;
 
+	/**
 	// 5 + (3 - 2) * 4
 	// 
 	//    +
@@ -271,6 +272,7 @@ int main()
 	//	   -   4
 	//	  / \
 	//	 3   2
+	*/
 
 	Node* n1 = new Node{ '5', nullptr, nullptr };
 	Node* n2 = new Node{ '+', nullptr, nullptr };

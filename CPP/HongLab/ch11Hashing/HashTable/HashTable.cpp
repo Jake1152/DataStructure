@@ -105,10 +105,12 @@ public:
 		size_t key = 0;
 
 		// "ABC"
+		// "BCA"
 		// index = g * (g * int('A") + int('B')) + int('C');
 		const int g = 31;
 		for (size_t idx = 0; idx < s.length(); idx++)
 			key =  g * key + int(s.at(idx));
+			// s.at(idx) + '0';
 		// std::cout << "key : " << key << std::endl;
 		// TODO:
 		size_t result = key % this->capacity_;
@@ -122,6 +124,9 @@ public:
 			cout << i << " : " << table_[i].key << " " << table_[i].value << endl;
 		cout << endl;
 	}
+	/**
+	 * 이미지 검색은 어떤 과정으로 되는가?
+	*/
 
 private:
 	Item* table_ = nullptr;

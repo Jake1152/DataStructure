@@ -78,7 +78,12 @@ public:
 
  		// TODO:
 		if (node)
+		{
+			// 먼저거르고
+			// if (node->left)
+			// if (node->right)
 			return Sum(node->left) + Sum(node->right) + (node->item);
+		}
 		return 0;
 	}
 
@@ -205,21 +210,27 @@ public:
 		}
 	}
 
+	/**
+	 *        6
+	 *     2     5
+	 *   1      4  
+	 * 3
+	*/
 	void IterInorder()
 	{
 		if (!root_) return;
 
-		Stack<Node*> s;
+		// Stack<Node*> s;
 
-		Node* cur_node = root_;
-		while (cur_node || !s.IsEmpty())
-		{
-			cur_node = stack.Top();
-			stack.Push(cur_node->right);
-			this->Visit(cur_node);
-			stack.Push(cur_node->left);
-			// TODO:
-		}
+		// Node* cur_node = root_;
+		// while (cur_node || !s.IsEmpty())
+		// {
+		// 	cur_node = stack.Top();
+		// 	// stack.Push(cur_node->right);
+		// 	// this->Visit(cur_node);
+		// 	// stack.Push(cur_node->left);
+		// 	// TODO:
+		// }
 	}
 
 	void IterPostorder()
@@ -242,8 +253,7 @@ public:
 
 	void Print2D();
 	void PrintLevel(int n);
-	void DisplayLevel(Node* p,
- int lv, int d);
+	void DisplayLevel(Node* p, int lv, int d);
 
 protected:
 	Node* root_ = nullptr;

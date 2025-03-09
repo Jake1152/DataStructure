@@ -47,13 +47,14 @@ MyString::~MyString()
 	if (this->str_ != nullptr)
 	{
 		// 메모리 해제
+		// delete this->str_;
 		delete [] this->str_;
 		/**
 		 * 혹시 각 요소를 할당 해제하면 나아질것인가?
 		 * 할당 해제 순서를 앞에서 뒤로, 뒤에서 앞으로 바꾸었을 때 에러 회수가 달라짐
-		*/
+		// */
 		// for (size_t idx = 0; idx < this->size_; idx++)  // -> ERROR SUMMARY: 391 errors from 61 contexts (suppressed: 0 from 0)
-		// for (size_t idx = this->size_; idx > 0; idx--) // ->ERROR SUMMARY: 422 errors from 62 contexts (suppressed: 0 from 0)
+		// // for (size_t idx = this->size_; idx > 0; idx--) // ->ERROR SUMMARY: 422 errors from 62 contexts (suppressed: 0 from 0)
 		// {
 		// 	delete &(this->str_[idx]);
 		// }
@@ -70,7 +71,7 @@ bool MyString::IsEmpty()
 bool MyString::IsEqual(const MyString& str) // 편의상 참조& 사용
 {
 	// 힌트: str.str_, str.size_ 가능
-	// str.Length(); // 왜 에러인가?
+	// str.Length(); // TODO: 왜 에러인가?
 	if (this->size_ != str.size_)
 		return false;
 	for (size_t idx = 0; idx < this->size_; idx++)
@@ -92,16 +93,20 @@ void MyString::Resize(size_t new_size)
 	// 메모리 재할당과 원래 갖고 있던 내용 복사
 	
 	// # way 00 chat *로 된 별도 변수에 값 임시 복사
-	/*
-	char	*temp_str = nullptr;
+	/*  */
+	// char	*temp_str = nullptr;
 
-	temp_str = new char[this->size_];
-	std::memcpy(temp_str, this->str_, this->size_);
-	// delete this->str_;
-	this->size_ = new_size;
-	std::memcpy(this->str_, temp_str, new_size);
-	delete [] temp_str;
-	*/
+	// temp_str = new char[this->size_];
+	// std::memcpy(temp_str, this->str_, this->size_);
+	// // delete this->str_;
+	// if (this->size_ >= new_size)
+	// this->size_ = new_size;
+	// // if 리사이즈 해서 더 작아졌을떄는 복사하지 않는다.
+	// // std::memcpy(this->str_, temp_str, new_size);
+	// 1 2 3 4 5
+	// 1 2 3 ,4 5 [] [] []
+	// size=3
+	// delete [] temp_str;
 
 	// # way 01 
 	/**
@@ -114,7 +119,7 @@ void MyString::Resize(size_t new_size)
 
 	// 	this->size_ = new_size;
 	// 	// memcpy(this->str_, temp_MyString.str_, this->size_);
-	// 	cpy_size = this->size_ > temp_MyString.size_ ? temp_MyString.size_ : this->size_;	
+	// 	cpy_size = this->size_ > new_size ? new_size : this->size_;	
 	// 	memcpy(this->str_, temp_MyString.str_, cpy_size);
 	// }
 
@@ -164,9 +169,17 @@ MyString MyString::Substr(size_t start, size_t num)
 
 	return temp;
 }
+// {
+//  MyString myString = Substr(size_t start, size_t num);
+
+// }
+
+
 
 /**
  * Insert 이용
+ * "Hello"
+ * ", World"
 */
 MyString MyString::Concat(MyString app_str)
 {
@@ -199,6 +212,8 @@ MyString MyString::Insert(MyString target, size_t start)
 	target_size = target.Length();
 	result_MyString.size_ = target_size + this->size_;
 	result_MyString.str_ = new char[result_MyString.size_];
+	//   start    start + target            target_size + this->size_;
+	// []     []                     [] 
 	// TODO:
 	// 1. start 이전 부분 복사 
 	for (size_t idx = 0; idx < start; idx++)

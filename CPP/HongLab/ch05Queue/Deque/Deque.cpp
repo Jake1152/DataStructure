@@ -7,8 +7,8 @@ int main()
 	// Double Ended Queue (덱)
 	Deque<char> d(8);
 
-	// d.SetDebugFlag(true);
-	d.SetDebugFlag(false);
+	d.SetDebugFlag(true);
+	// d.SetDebugFlag(false);
 
 	d.Print();
 

@@ -89,6 +89,21 @@ public:
 	void DepthFirstTraversal(int v) // v는 인덱스
 	{
 		// TODO:
+		this->visited_[v] = true;
+
+		// for (size_t idx = 0; idx < ; idx++)
+		// {
+
+		// 	this->matrix_[v];
+		// }
+		/**
+		 * 
+		*/
+		// 현재 노드와 연결된 다른 노드로 접근
+		// 인접행렬의 주대각을 기준으로 대칭형태이므로 삼각형 반쪽만 봐도 됨
+		// 
+		// this->
+
 	}
 
 	void IterDFT()

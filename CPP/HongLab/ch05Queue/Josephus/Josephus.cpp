@@ -8,7 +8,7 @@ int main()
 {
 	// int n = 4, k = 3; // set n and k to the desired values
 	// int n = 5, k = 2; // set n and k to the desired values
-	int n = 7, k = 3; // set n and k to the desired values
+	// int n = 7, k = 3; // set n and k to the desired values
 
 
 	Queue<int> q(n + 1);
