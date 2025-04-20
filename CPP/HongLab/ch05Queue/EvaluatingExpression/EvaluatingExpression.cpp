@@ -6,7 +6,12 @@
 using namespace std;
 
 int Prec(char c); // 연산자 우선순위를 반환
+
+// STEP02
+// 홍랩 코드 이용해서 InfixToPostfix 동작하게 한뒤, EvalPostfix 먼저 진행
 void InfixToPostfix(Queue<char>& q, Queue<char>& output);
+
+// STEP01
 int EvalPostfix(Queue<char>& q);
 
 /*
@@ -34,9 +39,14 @@ int EvalPostfix(Queue<char>& q);
 우선순위가 더 높은 현재 연산자를 스택에 push하고 임시 변수에 담아두었던 연산자를 스택에 push한다.
 - +* (OK)
 - *- => -*
-- -+* => *
+- -+* => -*+
   3 - 4 + 2 * 2 => 3
   3 4 - 2 2 * + 
+  TOP       BOTTOM
+
+STACK:
+OUTPUT: 3 4 2 2 -*+
+POSTFIX: 3 4 2 2 -*+
 
 # 연산자 우선순위가 존재하는 경우 (+,-,*,/)
 연산자를 비교한다.
@@ -61,10 +71,7 @@ Stack: +
 Queue: 1 4 6 3
 Stack: + + +
 
-
 1 4 + 6 
-
-
 
 */
 
@@ -123,22 +130,32 @@ void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 
 		cout << c << endl;
 
-		/* TODO: 
 		if (c >= '0' && c <= '9') // 숫자(피연산자)라면 output에 추가
-			...;
+			output.Enqueue(c);
 		else if (c == '(') // 여는 괄호라면 스택에 추가
-			...;
+			s.Push(c);
 		else if (c == ')') // 닫는 괄호를 만나면
 		{
 			// 여는 괄호 전까지를 스택에서 꺼내서 출력에 넣기
-			// 여는 괄호 제거
+			while (s.Top() != '(')
+			{
+				output.Enqueue(s.Top());
+				s.Pop();
+			}
+			s.Pop(); // 여는 괄호 제거
 		}
 		else // 연산자를 만나면
 		{
 			// 스택에서 c보다 우선순위가 높거나 같은 것들을 꺼내서 추가
+			while (!s.IsEmpty() && Prec(c) <= Prec(s.Top()))
+			{
+				output.Enqueue(s.Top());
+				s.Pop();
+			}
+
 			// c는 스택에 추가
+			s.Push(c);
 		}
-		*/
 
 		cout << "Stack: ";
 		s.Print();
@@ -154,6 +171,8 @@ void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 		s.Pop();
 	}
 }
+
+
 
 int EvalPostfix(Queue<char>& q)
 {
