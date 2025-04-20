@@ -79,8 +79,8 @@ int main()
 {
 	// 예제에서는 빈칸 없이 한 자리 숫자만 가능
 
-	//const char infix[] = "8/2+(3+4)*5-1*2";
-	const char infix[] = "1+(1*2+3)*4";
+	const char infix[] = "8/2+(3+4)*5-1*2";
+	// const char infix[] = "1+(1*2+3)*4";
 	//const char infix[] = "1+2*3+3";
 	//const char infix[] = "1+2*(3+1)";
 	const int size = sizeof(infix) / sizeof(char) - 1;
@@ -172,8 +172,6 @@ void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 	}
 }
 
-
-
 int EvalPostfix(Queue<char>& q)
 {
 	Stack<int> s;
@@ -185,11 +183,11 @@ int EvalPostfix(Queue<char>& q)
 
 		cout << c << endl;
 
-		/*
 		if (c != '+' && c != '-' && c != '*' && c != '/')
 		{
 			// 입력이 연산자가 아니면 일단 저장
 			// 문자를 숫자로 변환 c - '0' 예: int('9' - '0') -> 정수 9
+			s.Push(c - '0');
 		}
 		else
 		{
@@ -197,18 +195,28 @@ int EvalPostfix(Queue<char>& q)
 
 			// 입력이 연산자이면 스택에서 꺼내서 연산에 사용
 
+			int val2 = s.Top();
+			s.Pop();
+
+			int val1 = s.Top();
+			s.Pop();
+
+			// cout << "val1 : " << val1 << ",\t" << "val2 : " << val2 << endl;
+
 			if (c == '+') {
-				...
+				// ...
+				// int value = s.Pop()
+				s.Push(val1 + val2);
 			}
 			else if (c == '-') {
-				...
+				s.Push(val1 - val2);
 			}
 			else if (c == '*') {
-				...
+				s.Push(val1 * val2);
 			}
 			else if (c == '/')
 			{
-				...
+				s.Push(val1 / val2);
 			}
 			else
 			{
@@ -216,6 +224,7 @@ int EvalPostfix(Queue<char>& q)
 				exit(-1); // 강제 종료
 			}
 		}
+		/*
 		*/
 
 		cout << "Stack: ";
