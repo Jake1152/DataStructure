@@ -65,6 +65,8 @@ int main()
 	tree.Postorder();
 	cout << endl;
 
+	// LevelOrder
+	// 6 2 5 1 4 3 
 	cout << "LevelOrder" << endl; // 6 2 5 1 4 3
 	tree.LevelOrder();
 	cout << endl;

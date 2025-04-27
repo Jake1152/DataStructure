@@ -186,6 +186,7 @@ public:
 			// if (current->left)
 			if (current)
 			{
+				// 
 				queue.Enqueue(current->left);
 				queue.Enqueue(current->right);
 			}
