@@ -169,6 +169,8 @@ public:
 		}
 	}
 
+	// LevelOrder
+	// 6 2 5 1 4 3
 	void LevelOrder()
 	{
 		Queue<Node*> queue; // 힌트: MyQueue q;
@@ -181,10 +183,12 @@ public:
 			queue.Dequeue();
 			Visit(current);
 			// TODO:
-			if (current->left)
+			// if (current->left)
+			if (current)
+			{
 				queue.Enqueue(current->left);
-			if (current->right)
 				queue.Enqueue(current->right);
+			}
 		}
 	}
 
