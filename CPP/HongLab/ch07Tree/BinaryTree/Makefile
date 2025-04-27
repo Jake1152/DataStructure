@@ -1,6 +1,10 @@
 NAME = BinaryTree
 CXX = g++
 CXXFLAGS = -g -MMD -MP -I../shared
+
+# -MMD: 각 .o 파일 만들 때 .d 파일(의존성 목록)도 같이 만들어줌.
+# -MP: 헤더 파일이 나중에 삭제되더라도 에러가 안 나게 dummy rule 추가.
+# -include $(DEPS): .d 파일을 읽어와서 자동으로 의존성 추가.
 # CXXFLAGS = -g -MMD -MP #-Wall -Wextra -Werror
 # CXXFLAGS = -g -Wall -Wextra -Werror
 RM = rm -f

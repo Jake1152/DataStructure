@@ -183,16 +183,14 @@ public:
 			queue.Dequeue();
 			Visit(current);
 			// TODO:
-			// if (current->left)
-			if (current)
-			{
-				// 
+			if (current && current->left)
 				queue.Enqueue(current->left);
+			if (current && current->right)
 				queue.Enqueue(current->right);
-			}
 		}
 	}
 
+	// root -> left -> right
 	void IterPreorder()
 	{
 		if (!root_) return;
@@ -203,15 +201,6 @@ public:
 		while (!stack.IsEmpty())
 		{
 			// TODO:
-			Node* cur_node = stack.Top();
-
-			stack.Pop();
-			if (cur_node)
-			{
-				this->Visit(cur_node);
-				stack.Push(cur_node->right);
-				stack.Push(cur_node->left);
-			}
 		}
 	}
 
@@ -220,6 +209,7 @@ public:
 	 *     2     5
 	 *   1      4  
 	 * 3
+	 * left root right
 	*/
 	void IterInorder()
 	{
