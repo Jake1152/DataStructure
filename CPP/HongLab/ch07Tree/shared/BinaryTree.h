@@ -201,6 +201,16 @@ public:
 		while (!stack.IsEmpty())
 		{
 			// TODO:
+			Node* node;
+
+			node = stack.Top();
+			stack.Pop();
+			Visit(node);
+
+			if (node->right)
+				stack.Push(node->right);
+			if (node->left)
+				stack.Push(node->left);
 		}
 	}
 
