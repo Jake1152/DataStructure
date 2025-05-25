@@ -9,6 +9,21 @@ int Prec(char c); // 연산자 우선순위를 반환
 
 // STEP02
 // 홍랩 코드 이용해서 InfixToPostfix 동작하게 한뒤, EvalPostfix 먼저 진행
+
+/**
+ * 중위순회를 후위순회로 만들기
+ * 
+ * # 연산자 우선순위가 없는 상황(덧셈, 뺼셈)
+ * - 연산자가 피연산자 바로 뒤에 가게만 하면 됨
+ * - "1 + 3 - 4 + 7 "
+ * => "1 3 + 4 - 7 +"
+ * 
+ * # 연산자 우선순위가 있는 상황1(덧셈, 뺼셈, 곱셈, 나눗셈)
+ * - "1 + 3 - 4 * 7 "
+ * => "1 3 + 4 7 * - "
+ * # 연산자 우선순위가 있는 상황2(괄호 포함) 
+ * * - "1 + 3 - 4 * 7 "
+ */
 void InfixToPostfix(Queue<char>& q, Queue<char>& output);
 
 // STEP01
@@ -22,11 +37,12 @@ int EvalPostfix(Queue<char>& q);
  postfix: 8 2 / 3 - 4 5 * + 1 2 * - // 연산자를 만날때까지 진행
 		  = 4 3 - 4 5 * + 1 2 * -
 		  = 1 4 5 * + 1 2 * -
-		  = 1 20 + 1 2 * -
+		//   = 1 20 + 1 2 * -
 		  = 21 1 2 * -
 		  = 21 2 -
 		  = 19
 */
+
 
 /**
 사람은 infix순서로 수식을 계산, 우선순위도 고려해야한다. (*,/ 등등)
@@ -79,8 +95,8 @@ int main()
 {
 	// 예제에서는 빈칸 없이 한 자리 숫자만 가능
 
-	const char infix[] = "8/2+(3+4)*5-1*2";
-	// const char infix[] = "1+(1*2+3)*4";
+	// const char infix[] = "8/2+(3+4)*5-1*2";
+	const char infix[] = "1+(1*2+3)*4";
 	//const char infix[] = "1+2*3+3";
 	//const char infix[] = "1+2*(3+1)";
 	const int size = sizeof(infix) / sizeof(char) - 1;
@@ -101,7 +117,7 @@ int main()
 	cout << "Postfix: ";
 	postfix.Print();
 
-	cout << "Evaluated = " << EvalPostfix(postfix) << endl;
+	cout << "#Evaluated = " << EvalPostfix(postfix) << endl;
 
 	return 0;
 }
@@ -178,58 +194,103 @@ int EvalPostfix(Queue<char>& q)
 
 	while (!q.IsEmpty())
 	{
-		char c = q.Front();
+		char ch = q.Front();
 		q.Dequeue();
 
-		cout << c << endl;
-
-		if (c != '+' && c != '-' && c != '*' && c != '/')
+		if (ch == '+' || ch == '-' || ch == '*' || ch == '/')
 		{
-			// 입력이 연산자가 아니면 일단 저장
-			// 문자를 숫자로 변환 c - '0' 예: int('9' - '0') -> 정수 9
-			s.Push(c - '0');
+			int post_value, pre_value, result;
+
+			post_value = s.Top();
+			s.Pop();
+			pre_value= s.Top();
+			s.Pop();
+
+			if (ch == '+')
+				result = pre_value + post_value;
+			else if (ch == '-')
+				result = pre_value - post_value;
+			else if (ch == '*')
+				result = pre_value * post_value;
+			else if (ch == '/')
+				result = pre_value / post_value;
+			
+			// std::cout << "#pre_value : " << pre_value << "\t,post_value : " << post_value << ",\tresult :  " << result << std::endl;
+
+			s.Push(result);
 		}
 		else
 		{
-			cout << "Operator: " << c << endl;
+			// TODO: - '0'을 하지 않고 바로 변환하였기에 잘못된 값이 나오게 됨.
+			// int num = static_cast<int>(ch);
+			int num = static_cast<int>(ch - '0');
 
-			// 입력이 연산자이면 스택에서 꺼내서 연산에 사용
-
-			int val2 = s.Top();
-			s.Pop();
-
-			int val1 = s.Top();
-			s.Pop();
-
-			// cout << "val1 : " << val1 << ",\t" << "val2 : " << val2 << endl;
-
-			if (c == '+') {
-				// ...
-				// int value = s.Pop()
-				s.Push(val1 + val2);
-			}
-			else if (c == '-') {
-				s.Push(val1 - val2);
-			}
-			else if (c == '*') {
-				s.Push(val1 * val2);
-			}
-			else if (c == '/')
-			{
-				s.Push(val1 / val2);
-			}
-			else
-			{
-				cout << "Wrong operator" << endl;
-				exit(-1); // 강제 종료
-			}
+			// std::cout << "ch : " << ch << "\t,num : " << num << std::endl;
+			s.Push(num);
 		}
-		/*
-		*/
-
-		cout << "Stack: ";
-		s.Print();
 	}
 
 	return s.Top();
 }
+
+// int EvalPostfix(Queue<char>& q)
+// {
+// 	Stack<int> s;
+
+// 	while (!q.IsEmpty())
+// 	{
+// 		char c = q.Front();
+// 		q.Dequeue();
+
+// 		cout << c << endl;
+
+// 		if (c != '+' && c != '-' && c != '*' && c != '/')
+// 		{
+// 			// 입력이 연산자가 아니면 일단 저장
+// 			// 문자를 숫자로 변환 c - '0' 예: int('9' - '0') -> 정수 9
+// 			s.Push(c - '0');
+// 		}
+// 		else
+// 		{
+// 			cout << "Operator: " << c << endl;
+
+// 			// 입력이 연산자이면 스택에서 꺼내서 연산에 사용
+
+// 			int val2 = s.Top();
+// 			s.Pop();
+
+// 			int val1 = s.Top();
+// 			s.Pop();
+
+// 			// cout << "val1 : " << val1 << ",\t" << "val2 : " << val2 << endl;
+
+// 			if (c == '+') {
+// 				// ...
+// 				// int value = s.Pop()
+// 				s.Push(val1 + val2);
+// 			}
+// 			else if (c == '-') {
+// 				s.Push(val1 - val2);
+// 			}
+// 			else if (c == '*') {
+// 				s.Push(val1 * val2);
+// 			}
+// 			else if (c == '/')
+// 			{
+// 				s.Push(val1 / val2);
+// 			}
+// 			else
+// 			{
+// 				cout << "Wrong operator" << endl;
+// 				exit(-1); // 강제 종료
+// 			}
+// 		}
+// 		/*
+// 		*/
+
+// 		cout << "Stack: ";
+// 		s.Print();
+// 	}
+
+// 	return s.Top();
+// }
