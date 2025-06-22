@@ -73,7 +73,6 @@ POSTFIX: 3 4 2 2 -*+
 - * *
 3 3 - 2 * 4 *
 
-
 1 + 4 + 6 + 3
 
 Queue: 1 
@@ -88,7 +87,6 @@ Queue: 1 4 6 3
 Stack: + + +
 
 1 4 + 6 
-
 */
 
 int main()
@@ -133,6 +131,85 @@ int Prec(char c)
 		return -1; // '('는 우선순위가 아주 낮은 것으로 처리, ')' 닫는 괄호를 만날때까지 남겨두기 위함
 }
 
+/**
+Infix: A/B-C+D*E-A*C
+Postfix: AB/C-DE*+AC*-
+
+infix: 8 / 2 - 3 + 4 * 5 - 1 * 2 = 19
+postfix: 8 2 / 3 - 4 5 * + 1 2 * - // 연산자를 만날 때까지 진행
+       = 4 3 - 4 5 * + 1 2 * -
+	   = 1 4 5 * + 1 2 * -
+	   = 1 20 + 1 2 * -
+	   = 21 1 2 * -
+	   = 21 2 -
+	   = 19
+어떻게 infix를 postfix로 바꿀 것인가?
+유의해야할 사항들은 무엇인가?
+
+연산자의 우선순위가 다른 것들
+연산자 우선순위가 높은 것이 더 먼저? 와야함
+
+6 + 3 + 2
+=> 6 3 + 2 +
+
+6 + 3 * 2
+=> 6 3 2 * +
+
+6 + 3 * 2 / 5
+=> 6 3 2 5 /*+
+=> 6 3 2 *+ 5  /
+// TODO: 맨 앞에가 음수인 경우는 어떻게 할 것인가?
+// - 2 + 1 
+// 2 - 1 +
+ 
+
+(6 + 3) * 2 / 5
+=> 6 3 + 2 * 5 /
+
+(6 + (3 * 2)) / 5
+=> 6 3 2 * + 5 /
+
+- 괄호가 올 때 연산자 우선순위를 어떻게 할 것인가?
+- 괄호가 없을 때는 어떠한가, 괄호가 없을 때 연산우선순위의 변동은 어떻게 되는가?
+
+- 연산자 우선순위가 같은 것끼리는 어떻게 되는가?
+3 + 2 - 7 + 1 + 5
+=> 3 2 + 7 - 1 + 5 +
+
+*/
+
+void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
+{
+	Stack<char> s; // 우선순위가 낮은 연산을 보류하기 위한 스택
+
+	output_queue.SetDebugFlag(false);
+
+	while (input_queue.IsEmpty() == false)
+	{
+		const char ch = static_cast<const char>(input_queue.Front());
+
+		input_queue.Dequeue();
+		
+		//  3 + 2 => 3 2 +
+		/**
+		 * 숫자이면 output_queue에 담는다?
+		 * 
+		 * 연산자이면 어떻게 처리하는가?
+		 * 연산자도 output queue에 담는가?
+		 * 연산자 우선순위는 어떻게 되는가?
+		 */
+		if (std::isdigit(ch)) // 피연산자
+		{
+			// output
+		}
+		else  // 연산자
+		{
+			
+		}
+	}
+}
+
+/*
 void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 {
 	Stack<char> s; // 우선순위가 낮은 연산을 보류하기 위한 스택
@@ -187,7 +264,11 @@ void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 		s.Pop();
 	}
 }
+*/
 
+/*
+* Postfix 방식대로 연산을 진행하여 결과를 반환함
+*/
 int EvalPostfix(Queue<char>& q)
 {
 	Stack<int> s;
