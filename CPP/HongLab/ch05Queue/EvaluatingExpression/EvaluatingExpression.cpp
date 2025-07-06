@@ -60,9 +60,9 @@ int EvalPostfix(Queue<char>& q);
   3 4 - 2 2 * + 
   TOP       BOTTOM
 
-STACK:
-OUTPUT: 3 4 2 2 -*+
-POSTFIX: 3 4 2 2 -*+
+// STACK:
+// OUTPUT: 3 4 2 2 -*+
+// POSTFIX: 3 4 2 2 -*+
 
 # 연산자 우선순위가 존재하는 경우 (+,-,*,/)
 연산자를 비교한다.
@@ -74,7 +74,6 @@ POSTFIX: 3 4 2 2 -*+
 3 3 - 2 * 4 *
 
 1 + 4 + 6 + 3
-
 Queue: 1 
 Stack: 
 
@@ -93,8 +92,8 @@ int main()
 {
 	// 예제에서는 빈칸 없이 한 자리 숫자만 가능
 
-	// const char infix[] = "8/2+(3+4)*5-1*2";
-	const char infix[] = "1+(1*2+3)*4";
+	const char infix[] = "8/2+(3+4)*5-1*2";
+	// const char infix[] = "1+(1*2+3)*4";
 	//const char infix[] = "1+2*3+3";
 	//const char infix[] = "1+2*(3+1)";
 	const int size = sizeof(infix) / sizeof(char) - 1;
@@ -111,6 +110,9 @@ int main()
 	cout << endl;
 
 	InfixToPostfix(q, postfix);
+	// const char infix[] = "8/2+(3+4)*5-1*2";
+	// 홍랩: Postfix: 8 2 / 3 4 + 5 * + 1 2 * - 
+	// 제꺼: Postfix: 8 2 / + 3 4 + 5 * 1 2 * - 
 
 	cout << "Postfix: ";
 	postfix.Print();
@@ -161,7 +163,6 @@ postfix: 8 2 / 3 - 4 5 * + 1 2 * - // 연산자를 만날 때까지 진행
 // TODO: 맨 앞에가 음수인 경우는 어떻게 할 것인가?
 // - 2 + 1 
 // 2 - 1 +
- 
 
 (6 + 3) * 2 / 5
 => 6 3 + 2 * 5 /
@@ -175,19 +176,17 @@ postfix: 8 2 / 3 - 4 5 * + 1 2 * - // 연산자를 만날 때까지 진행
 - 연산자 우선순위가 같은 것끼리는 어떻게 되는가?
 3 + 2 - 7 + 1 + 5
 => 3 2 + 7 - 1 + 5 +
-
 */
-
 void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
 {
 	Stack<char> s; // 우선순위가 낮은 연산을 보류하기 위한 스택
 
 	output_queue.SetDebugFlag(false);
-
+	
 	while (input_queue.IsEmpty() == false)
 	{
 		const char ch = static_cast<const char>(input_queue.Front());
-
+		
 		input_queue.Dequeue();
 		
 		//  3 + 2 => 3 2 +
@@ -197,16 +196,59 @@ void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
 		 * 연산자이면 어떻게 처리하는가?
 		 * 연산자도 output queue에 담는가?
 		 * 연산자 우선순위는 어떻게 되는가?
+		 * 우선순위가 높은 것이 나오면 
+		 * input queue에 있는 연산자가 연산자 스택 top에 있는 연산자보다 우선순위가 낮으면 
+		 * 연산자 스택 top에 있는 우선순위가 높은 연산자를 output queue에 집어 넣는다.
 		 */
 		if (std::isdigit(ch)) // 피연산자
 		{
 			// output
+			output_queue.Enqueue(ch);
 		}
 		else  // 연산자
 		{
-			
+			// 연산자는 stack에 추가한다.
+			// output: 12 5 4  5 1 + + - * 32 5 * + 
+			if (ch == ')')
+			{
+				// '(' 연산자를 만날 때까지 스택에서 Pop()하여 output_queue로 옮긴다.
+				while (s.IsEmpty() == false)
+				{
+					if (s.Top() == '(')
+					{
+						s.Pop();
+						break ;
+					}
+					output_queue.Enqueue(s.Top());
+					s.Pop();
+				}
+			} 
+			// input: 10
+			// stack: '+'
+			// output: 3 4 '*'
+			// 현재 큐에서 빼낸 연산자의 우선순위가 연산자 스택에 있는 연산자의 우선순위 보다 낮을 때
+			else if (s.IsEmpty() == false && Prec(ch) < Prec(s.Top()))
+			{
+				output_queue.Enqueue(s.Top());
+				s.Pop();
+				s.Push(ch);
+			}
+			else
+			{
+				s.Push(ch);
+			}
 		}
 	}
+
+	while (s.IsEmpty() == false)
+	{
+		const char top = static_cast<const char>(s.Top());
+		s.Pop();
+
+		output_queue.Enqueue(top);
+	}
+
+	std::cout << "s.Size() : " << s.Size() << std::endl;
 }
 
 /*
