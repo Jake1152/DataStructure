@@ -92,10 +92,10 @@ int main()
 {
 	// 예제에서는 빈칸 없이 한 자리 숫자만 가능
 
-	const char infix[] = "8/2+(3+4)*5-1*2";
+	// const char infix[] = "8/2+(3+4)*5-1*2";
 	// const char infix[] = "1+(1*2+3)*4";
-	//const char infix[] = "1+2*3+3";
-	//const char infix[] = "1+2*(3+1)";
+	// const char infix[] = "1+2*3+3";
+	const char infix[] = "1+2*(3+1)";
 	const int size = sizeof(infix) / sizeof(char) - 1;
 
 	// 큐에 모두 넣기
@@ -227,7 +227,7 @@ void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
 			// stack: '+'
 			// output: 3 4 '*'
 			// 현재 큐에서 빼낸 연산자의 우선순위가 연산자 스택에 있는 연산자의 우선순위 보다 낮을 때
-			else if (s.IsEmpty() == false && Prec(ch) < Prec(s.Top()))
+			else if (s.IsEmpty() == false && ch != '(' && Prec(ch) < Prec(s.Top()))
 			{
 				output_queue.Enqueue(s.Top());
 				s.Pop();
@@ -238,6 +238,11 @@ void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
 				s.Push(ch);
 			}
 		}
+		// cout << "Stack: ";
+		// s.Print();
+		// cout << "Output:";
+		// output_queue.Print();
+		// cout << endl;
 	}
 
 	while (s.IsEmpty() == false)
@@ -248,65 +253,64 @@ void InfixToPostfix(Queue<char>& input_queue, Queue<char>& output_queue)
 		output_queue.Enqueue(top);
 	}
 
-	std::cout << "s.Size() : " << s.Size() << std::endl;
+	// std::cout << "s.Size() : " << s.Size() << std::endl;
 }
 
-/*
-void InfixToPostfix(Queue<char>& q, Queue<char>& output)
-{
-	Stack<char> s; // 우선순위가 낮은 연산을 보류하기 위한 스택
 
-	output.SetDebugFlag(false);
+// void InfixToPostfix(Queue<char>& q, Queue<char>& output)
+// {
+// 	Stack<char> s; // 우선순위가 낮은 연산을 보류하기 위한 스택
 
-	while (!q.IsEmpty())
-	{
-		char c = q.Front();
-		q.Dequeue();
+// 	output.SetDebugFlag(false);
 
-		cout << c << endl;
+// 	while (!q.IsEmpty())
+// 	{
+// 		char c = q.Front();
+// 		q.Dequeue();
 
-		if (c >= '0' && c <= '9') // 숫자(피연산자)라면 output에 추가
-			output.Enqueue(c);
-		else if (c == '(') // 여는 괄호라면 스택에 추가
-			s.Push(c);
-		else if (c == ')') // 닫는 괄호를 만나면
-		{
-			// 여는 괄호 전까지를 스택에서 꺼내서 출력에 넣기
-			while (s.Top() != '(')
-			{
-				output.Enqueue(s.Top());
-				s.Pop();
-			}
-			s.Pop(); // 여는 괄호 제거
-		}
-		else // 연산자를 만나면
-		{
-			// 스택에서 c보다 우선순위가 높거나 같은 것들을 꺼내서 추가
-			while (!s.IsEmpty() && Prec(c) <= Prec(s.Top()))
-			{
-				output.Enqueue(s.Top());
-				s.Pop();
-			}
+// 		cout << c << endl;
 
-			// c는 스택에 추가
-			s.Push(c);
-		}
+// 		if (c >= '0' && c <= '9') // 숫자(피연산자)라면 output에 추가
+// 			output.Enqueue(c);
+// 		else if (c == '(') // 여는 괄호라면 스택에 추가
+// 			s.Push(c);
+// 		else if (c == ')') // 닫는 괄호를 만나면
+// 		{
+// 			// 여는 괄호 전까지를 스택에서 꺼내서 출력에 넣기
+// 			while (s.Top() != '(')
+// 			{
+// 				output.Enqueue(s.Top());
+// 				s.Pop();
+// 			}
+// 			s.Pop(); // 여는 괄호 제거
+// 		}
+// 		else // 연산자를 만나면
+// 		{
+// 			// 스택에서 c보다 우선순위가 높거나 같은 것들을 꺼내서 추가
+// 			while (!s.IsEmpty() && Prec(c) <= Prec(s.Top()))
+// 			{
+// 				output.Enqueue(s.Top());
+// 				s.Pop();
+// 			}
 
-		cout << "Stack: ";
-		s.Print();
-		cout << "Output:";
-		output.Print();
-		cout << endl;
-	}
+// 			// c는 스택에 추가
+// 			s.Push(c);
+// 		}
 
-	// 스택에 남아있는 것들을 모두 추가
-	while (!s.IsEmpty())
-	{
-		output.Enqueue(s.Top());
-		s.Pop();
-	}
-}
-*/
+// 		cout << "Stack: ";
+// 		s.Print();
+// 		cout << "Output:";
+// 		output.Print();
+// 		cout << endl;
+// 	}
+
+// 	// 스택에 남아있는 것들을 모두 추가
+// 	while (!s.IsEmpty())
+// 	{
+// 		output.Enqueue(s.Top());
+// 		s.Pop();
+// 	}
+// }
 
 /*
 * Postfix 방식대로 연산을 진행하여 결과를 반환함
